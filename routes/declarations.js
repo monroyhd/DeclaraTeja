@@ -38,6 +38,165 @@ router.get('/new', (req, res) => {
   });
 });
 
+// Procesar actualización de declaración editada
+router.post('/edit/:year/:rfc', async (req, res) => {
+  try {
+    const { year, rfc } = req.params;
+    
+    // Verificar que el usuario solo pueda editar sus propias declaraciones
+    if (rfc.toUpperCase() !== req.session.user.rfc.toUpperCase()) {
+      return res.status(403).send('No autorizado');
+    }
+    
+    const declarations = await getUserDeclarations(req.session.user.rfc);
+    const existingDeclaration = declarations.find(d => d.year === parseInt(year));
+    
+    if (!existingDeclaration) {
+      return res.status(404).send('Declaración no encontrada');
+    }
+    
+    const yearInt = parseInt(year);
+    const declarationData = {
+      // Mantener metadatos originales
+      createdAt: existingDeclaration.createdAt,
+      updatedAt: new Date().toISOString(),
+      
+      // Datos personales
+      datosPersonales: {
+        nombre: req.body.nombre,
+        primerApellido: req.body.primerApellido,
+        segundoApellido: req.body.segundoApellido,
+        fechaNacimiento: req.body.fechaNacimiento,
+        rfc: req.body.rfc,
+        curp: req.body.curp,
+        homoclave: req.body.homoclave,
+        nacionalidad: req.body.nacionalidad,
+        paisNacimiento: req.body.paisNacimiento,
+        estadoCivil: req.body.estadoCivil,
+        regimenMatrimonial: req.body.regimenMatrimonial,
+        correoInstitucional: req.body.correoInstitucional,
+        correoPersonal: req.body.correoPersonal,
+        telefonoCelular: req.body.telefonoCelular,
+        telefonoCasa: req.body.telefonoCasa,
+        aclaracionesPersonales: req.body.aclaracionesPersonales
+      },
+      
+      // Domicilio
+      domicilio: {
+        calle: req.body.calle,
+        numeroExterior: req.body.numeroExterior,
+        numeroInterior: req.body.numeroInterior,
+        colonia: req.body.colonia,
+        municipio: req.body.municipio,
+        entidadFederativa: req.body.entidadFederativa,
+        codigoPostal: req.body.codigoPostal,
+        pais: req.body.pais,
+        aclaracionesDomicilio: req.body.aclaracionesDomicilio
+      },
+      
+      // Datos curriculares
+      datosCurriculares: {
+        nivelMaximoEstudios: req.body.nivelMaximoEstudios,
+        carrera: req.body.carrera,
+        institucionEducativa: req.body.institucionEducativa,
+        estatusEducativo: req.body.estatusEducativo,
+        añoEgreso: parseInt(req.body.añoEgreso) || null,
+        documentoObtenido: req.body.documentoObtenido,
+        fechaObtencionDocumento: req.body.fechaObtencionDocumento,
+        lugarInstitucion: req.body.lugarInstitucion,
+        aclaracionesCurriculares: req.body.aclaracionesCurriculares
+      },
+      
+      // Datos del empleo
+      empleo: {
+        institucion: req.body.institucion,
+        puesto: req.body.puesto,
+        nivel: req.body.nivel,
+        fechaIngreso: req.body.fechaIngreso,
+        funcionPrincipal: req.body.funcionPrincipal,
+        salarioMensualNeto: parseFloat(req.body.salarioMensualNeto) || 0,
+        nivelGobierno: req.body.nivelGobierno,
+        ambitoPublico: req.body.ambitoPublico,
+        areaAdscripcion: req.body.areaAdscripcion,
+        contratadoHonorarios: req.body.contratadoHonorarios,
+        telefonoOficina: req.body.telefonoOficina
+      },
+      
+      // Experiencia laboral
+      experienciaLaboral: {
+        sectorPublico: req.body.sectorPublico === 'si',
+        sectorPrivado: req.body.sectorPrivado === 'si',
+        otrosSectores: req.body.otrosSectores === 'si',
+        detallesExperiencia: req.body.detallesExperiencia
+      },
+      
+      // Participación en empresas
+      participacionEmpresas: {
+        participaEnEmpresas: req.body.participaEnEmpresas === 'si',
+        detallesParticipacion: req.body.detallesParticipacion
+      },
+      
+      // Bienes inmuebles
+      bienesInmuebles: {
+        poseeInmuebles: req.body.poseeInmuebles === 'si',
+        detallesInmuebles: req.body.detallesInmuebles
+      },
+      
+      // Bienes muebles
+      bienesMuebles: {
+        poseeMuebles: req.body.poseeMuebles === 'si',
+        detallesMuebles: req.body.detallesMuebles
+      },
+      
+      // Inversiones y valores
+      inversionesValores: {
+        poseeInversiones: req.body.poseeInversiones === 'si',
+        detallesInversiones: req.body.detallesInversiones
+      },
+      
+      // Adeudos
+      adeudos: {
+        tieneAdeudos: req.body.tieneAdeudos === 'si',
+        detallesAdeudos: req.body.detallesAdeudos
+      },
+      
+      // Ingresos netos del declarante
+      ingresos: {
+        sueldoSalarios: parseFloat(req.body.sueldoSalarios) || 0,
+        honorarios: parseFloat(req.body.honorarios) || 0,
+        actividadFinanciera: parseFloat(req.body.actividadFinanciera) || 0,
+        actividadComercial: parseFloat(req.body.actividadComercial) || 0,
+        otrosIngresos: parseFloat(req.body.otrosIngresos) || 0,
+        ingresosTotales: parseFloat(req.body.ingresosTotales) || 0
+      }
+    };
+
+    const filePath = await saveDeclaration(req.session.user.rfc, yearInt, declarationData);
+    
+    res.render('declarations/form', { 
+      title: `Editar Declaración ${year} - Declara.net`,
+      user: req.session.user,
+      year: yearInt,
+      declaration: declarationData,
+      isEdit: true,
+      error: null,
+      success: `Declaración actualizada exitosamente. Archivo actualizado: ${filePath.split('/').pop()}`
+    });
+
+  } catch (error) {
+    console.error('Error al actualizar declaración:', error);
+    res.render('declarations/form', { 
+      title: `Editar Declaración ${req.params.year} - Declara.net`,
+      user: req.session.user,
+      year: parseInt(req.params.year),
+      declaration: req.body,
+      isEdit: true,
+      error: 'Error al actualizar la declaración. Por favor, intente nuevamente.',
+      success: null
+    });
+  }
+});
+
 // Procesar nueva declaración
 router.post('/new', async (req, res) => {
   try {
@@ -311,6 +470,181 @@ router.post('/new', async (req, res) => {
       error: 'Error al guardar la declaración. Por favor, intente nuevamente.',
       success: null
     });
+  }
+});
+
+// Guardar borrador de declaración
+router.post('/draft', async (req, res) => {
+  try {
+    const year = parseInt(req.body.year) || new Date().getFullYear();
+    const declarationData = {
+      // Metadatos del borrador
+      isDraft: true,
+      lastModified: new Date().toISOString(),
+      completionStatus: {},
+      
+      // Datos personales
+      datosPersonales: {
+        nombre: req.body.nombre,
+        primerApellido: req.body.primerApellido,
+        segundoApellido: req.body.segundoApellido,
+        fechaNacimiento: req.body.fechaNacimiento,
+        rfc: req.body.rfc,
+        curp: req.body.curp,
+        homoclave: req.body.homoclave,
+        nacionalidad: req.body.nacionalidad,
+        paisNacimiento: req.body.paisNacimiento,
+        estadoCivil: req.body.estadoCivil,
+        regimenMatrimonial: req.body.regimenMatrimonial,
+        correoInstitucional: req.body.correoInstitucional,
+        correoPersonal: req.body.correoPersonal,
+        numeroCelular: req.body.numeroCelular,
+        numeroTelefonicoCasa: req.body.numeroTelefonicoCasa,
+        aclaracionesPersonales: req.body.aclaracionesPersonales
+      },
+      
+      // Domicilio
+      domicilio: {
+        calle: req.body.calle,
+        numeroExterior: req.body.numeroExterior,
+        numeroInterior: req.body.numeroInterior,
+        colonia: req.body.colonia,
+        municipio: req.body.municipio,
+        entidadFederativa: req.body.entidadFederativa,
+        codigoPostal: req.body.codigoPostal,
+        pais: req.body.pais,
+        aclaracionesDomicilio: req.body.aclaracionesDomicilio
+      },
+      
+      // Datos del empleo
+      empleo: {
+        institucion: req.body.institucion,
+        puesto: req.body.puesto,
+        nivel: req.body.nivel,
+        fechaIngreso: req.body.fechaIngreso,
+        funcionPrincipal: req.body.funcionPrincipal,
+        salarioMensualNeto: parseFloat(req.body.salarioMensualNeto) || 0
+      },
+      
+      // Experiencia laboral
+      experienciaLaboral: {
+        sectorPublico: req.body.sectorPublico,
+        sectorPrivado: req.body.sectorPrivado,
+        otrosSectores: req.body.otrosSectores,
+        detallesExperiencia: req.body.detallesExperiencia
+      },
+      
+      // Datos curriculares
+      datosCurriculares: {
+        nivelMaximoEstudios: req.body.nivelMaximoEstudios,
+        carrera: req.body.carrera,
+        institucionEducativa: req.body.institucionEducativa,
+        estatusEducativo: req.body.estatusEducativo,
+        añoEgreso: parseInt(req.body.añoEgreso) || null,
+        aclaracionesCurriculares: req.body.aclaracionesCurriculares
+      },
+      
+      // Participación en empresas
+      participacionEmpresas: {
+        participaEnEmpresas: req.body.participaEnEmpresas,
+        detallesParticipacion: req.body.detallesParticipacion
+      },
+      
+      // Bienes inmuebles
+      bienesInmuebles: {
+        poseeInmuebles: req.body.poseeInmuebles,
+        detallesInmuebles: req.body.detallesInmuebles
+      },
+      
+      // Bienes muebles
+      bienesMuebles: {
+        poseeMuebles: req.body.poseeMuebles,
+        detallesMuebles: req.body.detallesMuebles
+      },
+      
+      // Inversiones y valores
+      inversionesValores: {
+        poseeInversiones: req.body.poseeInversiones,
+        detallesInversiones: req.body.detallesInversiones
+      },
+      
+      // Adeudos y pasivos
+      adeudosPasivos: {
+        poseeAdeudos: req.body.poseeAdeudos,
+        detallesAdeudos: req.body.detallesAdeudos
+      },
+      
+      // Ingresos netos
+      ingresosNetos: {
+        ingresoMensualNeto: parseFloat(req.body.ingresoMensualNeto) || 0,
+        actividadIndustrial: req.body.actividadIndustrial,
+        actividadFinanciera: req.body.actividadFinanciera,
+        serviciosProfesionales: req.body.serviciosProfesionales,
+        otrosIngresos: req.body.otrosIngresos,
+        ingresoNetoAnualDeclarante: parseFloat(req.body.ingresoNetoAnualDeclarante) || 0,
+        ingresoNetoAnualPareja: parseFloat(req.body.ingresoNetoAnualPareja) || 0,
+        totalIngresosNetos: parseFloat(req.body.totalIngresosNetos) || 0,
+        aclaracionesIngresos: req.body.aclaracionesIngresos
+      },
+      
+      // Información adicional
+      informacionAdicional: {
+        observacionesGenerales: req.body.observacionesGenerales,
+        fechaDeclaracion: new Date().toISOString().split('T')[0]
+      }
+    };
+
+    // Crear nombre de archivo único para el borrador
+    const filename = `${req.session.user.rfc.toUpperCase()}_${year}_borrador.json`;
+    
+    // Guardar como borrador (temporalmente en el mismo directorio pero con sufijo _borrador)
+    await saveDeclaration(req.session.user.rfc, year, declarationData, true);
+    
+    res.json({ 
+      success: true, 
+      message: 'Borrador guardado correctamente',
+      filename: filename
+    });
+    
+  } catch (error) {
+    console.error('Error al guardar borrador:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Error al guardar el borrador: ' + error.message 
+    });
+  }
+});
+
+// Editar una declaración existente
+router.get('/edit/:year/:rfc', async (req, res) => {
+  try {
+    const { year, rfc } = req.params;
+    
+    // Verificar que el usuario solo pueda editar sus propias declaraciones
+    if (rfc.toUpperCase() !== req.session.user.rfc.toUpperCase()) {
+      return res.status(403).send('No autorizado');
+    }
+    
+    const declarations = await getUserDeclarations(req.session.user.rfc);
+    const declaration = declarations.find(d => d.year === parseInt(year));
+    
+    if (!declaration) {
+      return res.status(404).send('Declaración no encontrada');
+    }
+    
+    res.render('declarations/form', { 
+      title: `Editar Declaración ${year} - Declara.net`,
+      user: req.session.user,
+      year: parseInt(year),
+      declaration: declaration,
+      isEdit: true,
+      error: null,
+      success: null
+    });
+    
+  } catch (error) {
+    console.error('Error al cargar declaración para editar:', error);
+    res.status(500).send('Error interno del servidor');
   }
 });
 

@@ -17,17 +17,20 @@ const createUserDirectory = async (rfc) => {
  * @param {string} rfc - RFC del usuario
  * @param {number} year - Año de la declaración
  * @param {Object} declarationData - Datos de la declaración
+ * @param {boolean} isDraft - Si es un borrador
  * @returns {string} - Ruta del archivo generado
  */
-const saveDeclaration = async (rfc, year, declarationData) => {
+const saveDeclaration = async (rfc, year, declarationData, isDraft = false) => {
   const userDir = await createUserDirectory(rfc);
-  const filename = `${year}_${rfc.toUpperCase()}.json`;
+  const suffix = isDraft ? '_borrador' : '';
+  const filename = `${year}_${rfc.toUpperCase()}${suffix}.json`;
   const filePath = path.join(userDir, filename);
   
   const declaration = {
     rfc: rfc.toUpperCase(),
     year: year,
     fechaCaptura: new Date().toISOString(),
+    isDraft: isDraft,
     datos: declarationData
   };
   

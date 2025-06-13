@@ -113,6 +113,11 @@
                                 <small>RFC: <%= declaration.rfc %></small>
                             </div>
                             <div class="btn-container">
+                                <a href="/declarations/edit/<%= declaration.year %>/<%= declaration.rfc %>" 
+                                   class="btn btn-warning btn-sm me-2">
+                                    <i class="fas fa-edit me-1"></i>
+                                    Editar
+                                </a>
                                 <a href="/declarations/download/<%= declaration.year %>/<%= declaration.rfc %>" 
                                    class="btn btn-success btn-sm">
                                     <i class="fas fa-download me-1"></i>
@@ -468,8 +473,8 @@
                                     <div class="info-row">
                                         <div class="info-label">Posee:</div>
                                         <div class="info-value">
-                                            <span class="badge <%= declaration.datos.bienesInmuebles.casaHabitacion.tiene ? 'bg-success' : 'bg-secondary' %>">
-                                                <%= declaration.datos.bienesInmuebles.casaHabitacion.tiene ? 'Sí' : 'No' %>
+                                            <span class="badge <%= (declaration.datos?.bienesInmuebles?.casaHabitacion?.tiene) ? 'bg-success' : 'bg-secondary' %>">
+                                                <%= (declaration.datos?.bienesInmuebles?.casaHabitacion?.tiene) ? 'Sí' : 'No' %>
                                             </span>
                                         </div>
                                     </div>
@@ -478,7 +483,7 @@
                                     <div class="info-row">
                                         <div class="info-label">Valor:</div>
                                         <div class="info-value currency-value">
-                                            $<%= declaration.datos.bienesInmuebles.casaHabitacion.valor ? 
+                                            $<%= declaration.datos?.bienesInmuebles?.casaHabitacion?.valor ? 
                                                 declaration.datos.bienesInmuebles.casaHabitacion.valor.toLocaleString('es-MX', {minimumFractionDigits: 2}) : 
                                                 '0.00' %>
                                         </div>
@@ -487,13 +492,13 @@
                                 <div class="col-md-3">
                                     <div class="info-row">
                                         <div class="info-label">Superficie (m²):</div>
-                                        <div class="info-value"><%= declaration.datos.bienesInmuebles.casaHabitacion.superficie || '0' %></div>
+                                        <div class="info-value"><%= declaration.datos?.bienesInmuebles?.casaHabitacion?.superficie || '0' %></div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="info-row">
                                         <div class="info-label">Ubicación:</div>
-                                        <div class="info-value"><%= declaration.datos.bienesInmuebles.casaHabitacion.ubicacion || 'No especificada' %></div>
+                                        <div class="info-value"><%= declaration.datos?.bienesInmuebles?.casaHabitacion?.ubicacion || 'No especificada' %></div>
                                     </div>
                                 </div>
                             </div>
@@ -506,8 +511,8 @@
                                     <div class="info-row">
                                         <div class="info-label">Posee:</div>
                                         <div class="info-value">
-                                            <span class="badge <%= declaration.datos.bienesInmuebles.otrosInmuebles.tiene ? 'bg-success' : 'bg-secondary' %>">
-                                                <%= declaration.datos.bienesInmuebles.otrosInmuebles.tiene ? 'Sí' : 'No' %>
+                                            <span class="badge <%= (declaration.datos?.bienesInmuebles?.otrosInmuebles?.tiene) ? 'bg-success' : 'bg-secondary' %>">
+                                                <%= (declaration.datos?.bienesInmuebles?.otrosInmuebles?.tiene) ? 'Sí' : 'No' %>
                                             </span>
                                         </div>
                                     </div>
@@ -515,14 +520,14 @@
                                 <div class="col-md-3">
                                     <div class="info-row">
                                         <div class="info-label">Cantidad:</div>
-                                        <div class="info-value"><%= declaration.datos.bienesInmuebles.otrosInmuebles.cantidad || '0' %></div>
+                                        <div class="info-value"><%= declaration.datos?.bienesInmuebles?.otrosInmuebles?.cantidad || '0' %></div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="info-row">
                                         <div class="info-label">Valor Total:</div>
                                         <div class="info-value currency-value">
-                                            $<%= declaration.datos.bienesInmuebles.otrosInmuebles.valorTotal ? 
+                                            $<%= declaration.datos?.bienesInmuebles?.otrosInmuebles?.valorTotal ? 
                                                 declaration.datos.bienesInmuebles.otrosInmuebles.valorTotal.toLocaleString('es-MX', {minimumFractionDigits: 2}) : 
                                                 '0.00' %>
                                         </div>
@@ -531,7 +536,7 @@
                                 <div class="col-md-3">
                                     <div class="info-row">
                                         <div class="info-label">Descripción:</div>
-                                        <div class="info-value"><%= declaration.datos.bienesInmuebles.otrosInmuebles.descripcion || 'No especificada' %></div>
+                                        <div class="info-value"><%= declaration.datos?.bienesInmuebles?.otrosInmuebles?.descripcion || 'No especificada' %></div>
                                     </div>
                                 </div>
                             </div>
@@ -548,8 +553,8 @@
                                     <div class="info-row">
                                         <div class="info-label">Posee Vehículos:</div>
                                         <div class="info-value">
-                                            <span class="badge <%= declaration.datos.vehiculos.tieneVehiculos ? 'bg-success' : 'bg-secondary' %>">
-                                                <%= declaration.datos.vehiculos.tieneVehiculos ? 'Sí' : 'No' %>
+                                            <span class="badge <%= (declaration.datos?.vehiculos?.tieneVehiculos) ? 'bg-success' : 'bg-secondary' %>">
+                                                <%= (declaration.datos?.vehiculos?.tieneVehiculos) ? 'Sí' : 'No' %>
                                             </span>
                                         </div>
                                     </div>
@@ -557,14 +562,14 @@
                                 <div class="col-md-3">
                                     <div class="info-row">
                                         <div class="info-label">Cantidad:</div>
-                                        <div class="info-value"><%= declaration.datos.vehiculos.cantidad || '0' %></div>
+                                        <div class="info-value"><%= declaration.datos?.vehiculos?.cantidad || '0' %></div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="info-row">
                                         <div class="info-label">Valor Total:</div>
                                         <div class="info-value currency-value">
-                                            $<%= declaration.datos.vehiculos.valorTotal ? 
+                                            $<%= declaration.datos?.vehiculos?.valorTotal ? 
                                                 declaration.datos.vehiculos.valorTotal.toLocaleString('es-MX', {minimumFractionDigits: 2}) : 
                                                 '0.00' %>
                                         </div>
@@ -573,7 +578,7 @@
                                 <div class="col-md-3">
                                     <div class="info-row">
                                         <div class="info-label">Descripción:</div>
-                                        <div class="info-value"><%= declaration.datos.vehiculos.descripcion || 'No especificada' %></div>
+                                        <div class="info-value"><%= declaration.datos?.vehiculos?.descripcion || 'No especificada' %></div>
                                     </div>
                                 </div>
                             </div>
@@ -590,8 +595,8 @@
                                     <div class="info-row">
                                         <div class="info-label">Posee Bienes Muebles:</div>
                                         <div class="info-value">
-                                            <span class="badge <%= declaration.datos.bienesMuebles.tieneBienesMuebles ? 'bg-success' : 'bg-secondary' %>">
-                                                <%= declaration.datos.bienesMuebles.tieneBienesMuebles ? 'Sí' : 'No' %>
+                                            <span class="badge <%= (declaration.datos?.bienesMuebles?.tieneBienesMuebles) ? 'bg-success' : 'bg-secondary' %>">
+                                                <%= (declaration.datos?.bienesMuebles?.tieneBienesMuebles) ? 'Sí' : 'No' %>
                                             </span>
                                         </div>
                                     </div>
@@ -600,7 +605,7 @@
                                     <div class="info-row">
                                         <div class="info-label">Valor Total:</div>
                                         <div class="info-value currency-value">
-                                            $<%= declaration.datos.bienesMuebles.valorTotal ? 
+                                            $<%= declaration.datos?.bienesMuebles?.valorTotal ? 
                                                 declaration.datos.bienesMuebles.valorTotal.toLocaleString('es-MX', {minimumFractionDigits: 2}) : 
                                                 '0.00' %>
                                         </div>
@@ -609,7 +614,7 @@
                                 <div class="col-md-4">
                                     <div class="info-row">
                                         <div class="info-label">Descripción:</div>
-                                        <div class="info-value"><%= declaration.datos.bienesMuebles.descripcion || 'No especificada' %></div>
+                                        <div class="info-value"><%= declaration.datos?.bienesMuebles?.descripcion || 'No especificada' %></div>
                                     </div>
                                 </div>
                             </div>
@@ -627,8 +632,8 @@
                                     <div class="info-row">
                                         <div class="info-label">Posee Cuentas:</div>
                                         <div class="info-value">
-                                            <span class="badge <%= declaration.datos.inversionesCuentas.cuentasBancarias.tiene ? 'bg-success' : 'bg-secondary' %>">
-                                                <%= declaration.datos.inversionesCuentas.cuentasBancarias.tiene ? 'Sí' : 'No' %>
+                                            <span class="badge <%= (declaration.datos?.inversionesCuentas?.cuentasBancarias?.tiene) ? 'bg-success' : 'bg-secondary' %>">
+                                                <%= (declaration.datos?.inversionesCuentas?.cuentasBancarias?.tiene) ? 'Sí' : 'No' %>
                                             </span>
                                         </div>
                                     </div>
@@ -636,14 +641,14 @@
                                 <div class="col-md-4">
                                     <div class="info-row">
                                         <div class="info-label">Número de Productos:</div>
-                                        <div class="info-value"><%= declaration.datos.inversionesCuentas.cuentasBancarias.numeroProductos || '0' %></div>
+                                        <div class="info-value"><%= declaration.datos?.inversionesCuentas?.cuentasBancarias?.numeroProductos || '0' %></div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="info-row">
                                         <div class="info-label">Monto Total:</div>
                                         <div class="info-value currency-value">
-                                            $<%= declaration.datos.inversionesCuentas.cuentasBancarias.montoTotal ? 
+                                            $<%= declaration.datos?.inversionesCuentas?.cuentasBancarias?.montoTotal ? 
                                                 declaration.datos.inversionesCuentas.cuentasBancarias.montoTotal.toLocaleString('es-MX', {minimumFractionDigits: 2}) : 
                                                 '0.00' %>
                                         </div>
@@ -659,8 +664,8 @@
                                     <div class="info-row">
                                         <div class="info-label">Posee Inversiones:</div>
                                         <div class="info-value">
-                                            <span class="badge <%= declaration.datos.inversionesCuentas.inversionesValores.tiene ? 'bg-success' : 'bg-secondary' %>">
-                                                <%= declaration.datos.inversionesCuentas.inversionesValores.tiene ? 'Sí' : 'No' %>
+                                            <span class="badge <%= (declaration.datos?.inversionesCuentas?.inversionesValores?.tiene) ? 'bg-success' : 'bg-secondary' %>">
+                                                <%= (declaration.datos?.inversionesCuentas?.inversionesValores?.tiene) ? 'Sí' : 'No' %>
                                             </span>
                                         </div>
                                     </div>
@@ -669,7 +674,7 @@
                                     <div class="info-row">
                                         <div class="info-label">Monto Total:</div>
                                         <div class="info-value currency-value">
-                                            $<%= declaration.datos.inversionesCuentas.inversionesValores.montoTotal ? 
+                                            $<%= declaration.datos?.inversionesCuentas?.inversionesValores?.montoTotal ? 
                                                 declaration.datos.inversionesCuentas.inversionesValores.montoTotal.toLocaleString('es-MX', {minimumFractionDigits: 2}) : 
                                                 '0.00' %>
                                         </div>
@@ -679,7 +684,7 @@
                                     <div class="info-row">
                                         <div class="info-label">Tipos de Inversión:</div>
                                         <div class="info-value">
-                                            <% if (declaration.datos.inversionesCuentas.inversionesValores.tipoInversiones && declaration.datos.inversionesCuentas.inversionesValores.tipoInversiones.length > 0) { %>
+                                            <% if (declaration.datos?.inversionesCuentas?.inversionesValores?.tipoInversiones && declaration.datos.inversionesCuentas.inversionesValores.tipoInversiones.length > 0) { %>
                                                 <% declaration.datos.inversionesCuentas.inversionesValores.tipoInversiones.forEach(function(tipo) { %>
                                                     <span class="badge bg-info me-1"><%= tipo %></span>
                                                 <% }); %>
@@ -703,8 +708,8 @@
                                     <div class="info-row">
                                         <div class="info-label">Tiene Adeudos:</div>
                                         <div class="info-value">
-                                            <span class="badge <%= declaration.datos.adeudos.tieneAdeudos ? 'bg-warning' : 'bg-success' %>">
-                                                <%= declaration.datos.adeudos.tieneAdeudos ? 'Sí' : 'No' %>
+                                            <span class="badge <%= (declaration.datos?.adeudos?.tieneAdeudos) ? 'bg-warning' : 'bg-success' %>">
+                                                <%= (declaration.datos?.adeudos?.tieneAdeudos) ? 'Sí' : 'No' %>
                                             </span>
                                         </div>
                                     </div>
@@ -713,17 +718,17 @@
                                     <div class="info-row">
                                         <div class="info-label">Detalles de Adeudos:</div>
                                         <div class="info-value">
-                                            <% if (declaration.datos.adeudos.tieneAdeudos) { %>
-                                                <% if (declaration.datos.adeudos.adeudosHipotecarios.tiene) { %>
+                                            <% if (declaration.datos?.adeudos?.tieneAdeudos) { %>
+                                                <% if (declaration.datos?.adeudos?.adeudosHipotecarios?.tiene) { %>
                                                     <span class="badge bg-warning me-2">Hipotecarios: $<%= declaration.datos.adeudos.adeudosHipotecarios.monto.toLocaleString('es-MX', {minimumFractionDigits: 2}) %></span>
                                                 <% } %>
-                                                <% if (declaration.datos.adeudos.adeudosPersonales.tiene) { %>
+                                                <% if (declaration.datos?.adeudos?.adeudosPersonales?.tiene) { %>
                                                     <span class="badge bg-warning me-2">Personales: $<%= declaration.datos.adeudos.adeudosPersonales.monto.toLocaleString('es-MX', {minimumFractionDigits: 2}) %></span>
                                                 <% } %>
-                                                <% if (declaration.datos.adeudos.tarjetasCredito.tiene) { %>
+                                                <% if (declaration.datos?.adeudos?.tarjetasCredito?.tiene) { %>
                                                     <span class="badge bg-warning me-2">Tarjetas: $<%= declaration.datos.adeudos.tarjetasCredito.monto.toLocaleString('es-MX', {minimumFractionDigits: 2}) %></span>
                                                 <% } %>
-                                                <% if (declaration.datos.adeudos.otrosAdeudos.tiene) { %>
+                                                <% if (declaration.datos?.adeudos?.otrosAdeudos?.tiene) { %>
                                                     <span class="badge bg-warning me-2">Otros: $<%= declaration.datos.adeudos.otrosAdeudos.monto.toLocaleString('es-MX', {minimumFractionDigits: 2}) %></span>
                                                 <% } %>
                                             <% } else { %>
@@ -734,12 +739,12 @@
                                 </div>
                             </div>
                             
-                            <% if (declaration.datos.adeudos.otrosAdeudos.descripcion) { %>
+                            <% if (declaration.datos?.adeudos?.otrosAdeudos?.descripcion) { %>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="info-row">
                                         <div class="info-label">Descripción de Otros Adeudos:</div>
-                                        <div class="info-value"><%= declaration.datos.adeudos.otrosAdeudos.descripcion %></div>
+                                        <div class="info-value"><%= declaration.datos?.adeudos?.otrosAdeudos?.descripcion %></div>
                                     </div>
                                 </div>
                             </div>
@@ -757,7 +762,7 @@
                                     <div class="info-row">
                                         <div class="info-label">Sueldo y Salarios (Anual):</div>
                                         <div class="info-value currency-value">
-                                            $<%= declaration.datos.ingresos.sueldoSalarios ? 
+                                            $<%= declaration.datos.ingresos?.sueldoSalarios ? 
                                                 declaration.datos.ingresos.sueldoSalarios.toLocaleString('es-MX', {minimumFractionDigits: 2}) : 
                                                 '0.00' %>
                                         </div>
@@ -767,8 +772,8 @@
                                     <div class="info-row">
                                         <div class="info-label">Honorarios (Anual):</div>
                                         <div class="info-value currency-value">
-                                            $<%= declaration.datos.ingresos.honosarios ? 
-                                                declaration.datos.ingresos.honosarios.toLocaleString('es-MX', {minimumFractionDigits: 2}) : 
+                                            $<%= declaration.datos.ingresos?.honorarios ? 
+                                                declaration.datos.ingresos.honorarios.toLocaleString('es-MX', {minimumFractionDigits: 2}) : 
                                                 '0.00' %>
                                         </div>
                                     </div>
@@ -780,7 +785,7 @@
                                     <div class="info-row">
                                         <div class="info-label">Actividad Financiera (Anual):</div>
                                         <div class="info-value currency-value">
-                                            $<%= declaration.datos.ingresos.actividadFinanciera ? 
+                                            $<%= declaration.datos.ingresos?.actividadFinanciera ? 
                                                 declaration.datos.ingresos.actividadFinanciera.toLocaleString('es-MX', {minimumFractionDigits: 2}) : 
                                                 '0.00' %>
                                         </div>
@@ -790,7 +795,7 @@
                                     <div class="info-row">
                                         <div class="info-label">Actividad Comercial (Anual):</div>
                                         <div class="info-value currency-value">
-                                            $<%= declaration.datos.ingresos.actividadComercial ? 
+                                            $<%= declaration.datos.ingresos?.actividadComercial ? 
                                                 declaration.datos.ingresos.actividadComercial.toLocaleString('es-MX', {minimumFractionDigits: 2}) : 
                                                 '0.00' %>
                                         </div>
@@ -803,7 +808,7 @@
                                     <div class="info-row">
                                         <div class="info-label">Otros Ingresos (Anual):</div>
                                         <div class="info-value currency-value">
-                                            $<%= declaration.datos.ingresos.otrosIngresos ? 
+                                            $<%= declaration.datos.ingresos?.otrosIngresos ? 
                                                 declaration.datos.ingresos.otrosIngresos.toLocaleString('es-MX', {minimumFractionDigits: 2}) : 
                                                 '0.00' %>
                                         </div>
@@ -813,7 +818,7 @@
                                     <div class="info-row">
                                         <div class="info-label">Total de Ingresos (Anual):</div>
                                         <div class="info-value currency-value fw-bold fs-5">
-                                            $<%= declaration.datos.ingresos.ingresosTotales ? 
+                                            $<%= declaration.datos.ingresos?.ingresosTotales ? 
                                                 declaration.datos.ingresos.ingresosTotales.toLocaleString('es-MX', {minimumFractionDigits: 2}) : 
                                                 '0.00' %>
                                         </div>
