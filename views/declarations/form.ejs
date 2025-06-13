@@ -1,0 +1,2259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+        /* Paleta de colores institucional TEJABC - Exacta */
+        :root {
+            --tejabc-blue: #1a4b84;           /* Azul institucional principal */
+            --tejabc-dark-blue: #0f3460;     /* Azul oscuro */
+            --tejabc-red: #b91c1c;           /* Rojo institucional */
+            --tejabc-gold: #f59e0b;          /* Dorado institucional */
+            --tejabc-green: #059669;         /* Verde institucional */
+            --tejabc-light-gray: #f8fafc;    /* Fondo claro */
+            --tejabc-dark-gray: #374151;     /* Texto oscuro */
+            --tejabc-border: #d1d5db;        /* Bordes */
+            --tejabc-white: #ffffff;         /* Blanco */
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            background-color: var(--tejabc-light-gray);
+            color: var(--tejabc-dark-gray);
+            line-height: 1.6;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, var(--tejabc-blue), var(--tejabc-dark-blue));
+            color: white;
+            padding: 1.2rem 1.5rem;
+            margin: 2rem 0 1.5rem 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(26, 75, 132, 0.2);
+            border-left: 4px solid var(--tejabc-gold);
+        }
+
+        .section-header h4 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-section {
+            background: var(--tejabc-white);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--tejabc-border);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid var(--tejabc-green);
+        }
+
+        .required-field::after {
+            content: ' *';
+            color: var(--tejabc-red);
+            font-weight: bold;
+        }
+
+        .form-progress {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: linear-gradient(90deg, var(--tejabc-blue), var(--tejabc-dark-blue));
+            padding: 1rem 0;
+            border-bottom: 3px solid var(--tejabc-gold);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-progress .progress {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            height: 8px;
+        }
+
+        .form-progress .progress-bar {
+            background: linear-gradient(90deg, var(--tejabc-green), var(--tejabc-gold));
+            border-radius: 10px;
+        }
+
+        .form-progress small {
+            color: white;
+            font-weight: 500;
+        }
+
+        .currency-input {
+            position: relative;
+        }
+        .currency-input::before {
+            content: '$';
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--tejabc-blue);
+            font-weight: bold;
+        }
+        .currency-input input {
+            padding-left: 28px;
+            border: 2px solid var(--tejabc-border);
+            border-radius: 6px;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid var(--tejabc-border);
+            border-radius: 6px;
+            padding: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--tejabc-blue);
+            box-shadow: 0 0 0 0.2rem rgba(26, 75, 132, 0.15);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--tejabc-dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .alert-info {
+            background-color: #e0f2fe;
+            border: 1px solid var(--tejabc-blue);
+            color: var(--tejabc-dark-blue);
+            border-radius: 6px;
+            border-left: 4px solid var(--tejabc-blue);
+        }
+
+        .alert-warning {
+            background-color: #fef3c7;
+            border: 1px solid var(--tejabc-gold);
+            color: #92400e;
+            border-radius: 6px;
+            border-left: 4px solid var(--tejabc-gold);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--tejabc-blue), var(--tejabc-dark-blue));
+            border: none;
+            border-radius: 6px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--tejabc-dark-blue), var(--tejabc-blue));
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(26, 75, 132, 0.3);
+        }
+
+        .btn-outline-secondary {
+            border: 2px solid var(--tejabc-border);
+            color: var(--tejabc-dark-gray);
+            border-radius: 6px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: var(--tejabc-red);
+            border-color: var(--tejabc-red);
+            color: white;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border-left: 4px solid var(--tejabc-gold);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--tejabc-blue), var(--tejabc-dark-blue));
+            border: none;
+            padding: 1.5rem 2rem;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-header small {
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .bg-primary {
+            background: linear-gradient(135deg, var(--tejabc-blue), var(--tejabc-dark-blue)) !important;
+            border-bottom: 3px solid var(--tejabc-gold);
+        }
+
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0.5rem 1rem !important;
+            border-radius: 6px;
+            margin: 0 0.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: white !important;
+        }
+
+        .dropdown-menu {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .form-check-input:checked {
+            background-color: var(--tejabc-blue);
+            border-color: var(--tejabc-blue);
+        }
+
+        h6 {
+            color: var(--tejabc-blue);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--tejabc-gold);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        hr {
+            border-color: var(--tejabc-gold);
+            border-width: 2px;
+            margin: 2rem 0;
+        }
+
+        /* Efectos hover mejorados */
+        .form-section:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+            transform: translateY(-1px);
+            transition: all 0.3s ease;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .section-header {
+                padding: 1rem;
+                margin: 1.5rem 0 1rem 0;
+            }
+
+            .form-section {
+                padding: 1.5rem;
+            }
+
+            .card-header {
+                padding: 1rem 1.5rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-balance-scale me-2"></i>
+                DeclaraTEJA
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-1"></i>
+                            INICIO
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/declarations">
+                            <i class="fas fa-folder-open me-1"></i>
+                            Mis Declaraciones
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/declarations/new">
+                            <i class="fas fa-plus-circle me-1"></i>
+                            Nueva Declaración
+                        </a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-tie me-1"></i>
+                            <%= user.nombre %>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><span class="dropdown-item-text small"><strong>RFC:</strong> <%= user.rfc %></span></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form action="/auth/logout" method="POST" class="d-inline">
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="fas fa-sign-out-alt me-1"></i>
+                                        Cerrar Sesión
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="form-progress">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar" role="progressbar" style="width: 0%" id="formProgress"></div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <small class="text-white">
+                        <i class="fas fa-chart-line me-1"></i>
+                        Progreso: <span id="progressText" class="fw-bold">0%</span>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h3 class="mb-0">
+                                    <i class="fas fa-file-contract me-2"></i>
+                                    Declaración de Situación Patrimonial y de Intereses
+                                </h3>
+                                <small class="d-block mt-1">
+                                    <i class="fas fa-building me-1"></i>
+                                    TRIBUNAL ESTATAL DE JUSTICIA ADMINISTRATIVA DE BAJA CALIFORNIA
+                                </small>
+                                <small class="d-block">
+                                    <i class="fas fa-calendar-alt me-1"></i>
+                                    Ejercicio Fiscal: <%= year %>
+                                </small>
+                            </div>
+                            <div class="col-md-4 text-md-end">
+                                <div class="badge bg-light text-dark fs-6 px-3 py-2">
+                                    <i class="fas fa-user-tie me-1"></i>
+                                    SERVIDOR PÚBLICO
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <% if (locals.error) { %>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                <%= error %>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        <% } %>
+
+                        <% if (locals.success) { %>
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="fas fa-check-circle me-2"></i>
+                                <%= success %>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        <% } %>
+
+                        <form action="/declarations/new" method="POST" id="declarationForm">
+                            <input type="hidden" name="year" value="<%= year %>">
+
+                            <!-- SECCIÓN 1: DATOS PERSONALES -->
+                            <div class="section-header">
+                                <h4><i class="fas fa-user me-2"></i>1. DATOS PERSONALES</h4>
+                            </div>
+                            
+                            <div class="form-section">
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="nombre" class="form-label required-field">Nombre(s)</label>
+                                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="primerApellido" class="form-label required-field">Primer Apellido</label>
+                                        <input type="text" class="form-control" id="primerApellido" name="primerApellido" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="segundoApellido" class="form-label">Segundo Apellido</label>
+                                        <input type="text" class="form-control" id="segundoApellido" name="segundoApellido">
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-3 mb-3">
+                                        <label for="fechaNacimiento" class="form-label required-field">Fecha de Nacimiento</label>
+                                        <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="rfc" class="form-label required-field">RFC</label>
+                                        <input type="text" class="form-control" id="rfc" name="rfc" 
+                                               style="text-transform: uppercase;" maxlength="13" 
+                                               value="<%= user.rfc %>" readonly>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="curp" class="form-label required-field">CURP</label>
+                                        <input type="text" class="form-control" id="curp" name="curp" 
+                                               style="text-transform: uppercase;" maxlength="18" required>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="homoclave" class="form-label">Homoclave</label>
+                                        <input type="text" class="form-control" id="homoclave" name="homoclave" 
+                                               style="text-transform: uppercase;" maxlength="3">
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="nacionalidad" class="form-label required-field">Nacionalidad</label>
+                                        <select class="form-select" id="nacionalidad" name="nacionalidad" required>
+                                            <option value="">Seleccione...</option>
+                                            <option value="Mexicana">Mexicana</option>
+                                            <option value="Otra">Otra</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="paisNacimiento" class="form-label required-field">País de Nacimiento</label>
+                                        <select class="form-select" id="paisNacimiento" name="paisNacimiento" required>
+                                            <option value="">Seleccione...</option>
+                                            <option value="México">México</option>
+                                            <option value="Otro">En el extranjero</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="numeroTelefonicoCasa" class="form-label">Número Telefónico de Casa</label>
+                                        <input type="tel" class="form-control" id="numeroTelefonicoCasa" name="numeroTelefonicoCasa">
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="numeroCelular" class="form-label">Número Celular</label>
+                                        <input type="tel" class="form-control" id="numeroCelular" name="numeroCelular">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="correoInstitucional" class="form-label">Correo Electrónico Institucional</label>
+                                        <input type="email" class="form-control" id="correoInstitucional" name="correoInstitucional">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="correoPersonal" class="form-label">Correo Electrónico Personal</label>
+                                        <input type="email" class="form-control" id="correoPersonal" name="correoPersonal">
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="estadoCivil" class="form-label required-field">Estado Civil</label>
+                                        <select class="form-select" id="estadoCivil" name="estadoCivil" required>
+                                            <option value="">Seleccione...</option>
+                                            <option value="Soltero(a)">Soltero(a)</option>
+                                            <option value="Casado(a)">Casado(a)</option>
+                                            <option value="Divorciado(a)">Divorciado(a)</option>
+                                            <option value="Viudo(a)">Viudo(a)</option>
+                                            <option value="Concubina/Concubinario/Unión libre">Concubina/Concubinario/Unión libre</option>
+                                            <option value="Sociedad de convivencia">Sociedad de convivencia</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3" id="regimenMatrimonialContainer" style="display: none;">
+                                        <label for="regimenMatrimonial" class="form-label">Régimen Matrimonial</label>
+                                        <select class="form-select" id="regimenMatrimonial" name="regimenMatrimonial">
+                                            <option value="">Seleccione...</option>
+                                            <option value="Sociedad conyugal">Sociedad conyugal</option>
+                                            <option value="Separación de bienes">Separación de bienes</option>
+                                            <option value="Otro">Otro</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        <label for="aclaracionesPersonales" class="form-label">Aclaraciones / Observaciones</label>
+                                        <textarea class="form-control" id="aclaracionesPersonales" name="aclaracionesPersonales" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SECCIÓN 2: DOMICILIO -->
+                            <div class="section-header">
+                                <h4><i class="fas fa-home me-2"></i>2. DOMICILIO PARTICULAR</h4>
+                            </div>
+                            
+                            <div class="form-section">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="calle" class="form-label required-field">Calle</label>
+                                        <input type="text" class="form-control" id="calle" name="calle" required>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="numeroExterior" class="form-label required-field">Número Exterior</label>
+                                        <input type="text" class="form-control" id="numeroExterior" name="numeroExterior" required>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="numeroInterior" class="form-label">Número Interior</label>
+                                        <input type="text" class="form-control" id="numeroInterior" name="numeroInterior">
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="colonia" class="form-label required-field">Colonia</label>
+                                        <input type="text" class="form-control" id="colonia" name="colonia" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="municipio" class="form-label required-field">Municipio/Delegación</label>
+                                        <input type="text" class="form-control" id="municipio" name="municipio" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="entidadFederativa" class="form-label required-field">Entidad Federativa</label>
+                                        <input type="text" class="form-control" id="entidadFederativa" name="entidadFederativa" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-3 mb-3">
+                                        <label for="codigoPostal" class="form-label required-field">Código Postal</label>
+                                        <input type="text" class="form-control" id="codigoPostal" name="codigoPostal" 
+                                               pattern="\\d{5}" maxlength="5" required>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="pais" class="form-label required-field">País</label>
+                                        <select class="form-select" id="pais" name="pais" required>
+                                            <option value="">Seleccione...</option>
+                                            <option value="México">México</option>
+                                            <option value="Otro">Otro país</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        <label for="aclaracionesDomicilio" class="form-label">Aclaraciones / Observaciones</label>
+                                        <textarea class="form-control" id="aclaracionesDomicilio" name="aclaracionesDomicilio" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SECCIÓN 4: DATOS DEL EMPLEO -->
+                            <div class="section-header">
+                                <h4><i class="fas fa-briefcase me-2"></i>4. DATOS DEL EMPLEO, CARGO O COMISIÓN</h4>
+                            </div>
+                            
+                            <div class="form-section">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="institucion" class="form-label required-field">Institución</label>
+                                        <input type="text" class="form-control" id="institucion" name="institucion" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="puesto" class="form-label required-field">Puesto</label>
+                                        <input type="text" class="form-control" id="puesto" name="puesto" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="nivel" class="form-label">Nivel</label>
+                                        <input type="text" class="form-control" id="nivel" name="nivel">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="fechaIngreso" class="form-label required-field">Fecha de Ingreso</label>
+                                        <input type="date" class="form-control" id="fechaIngreso" name="fechaIngreso" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="salarioMensualNeto" class="form-label required-field">Salario Mensual Neto</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="salarioMensualNeto" 
+                                                   name="salarioMensualNeto" step="0.01" min="0" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="funcionPrincipal" class="form-label">Función Principal</label>
+                                    <textarea class="form-control" id="funcionPrincipal" name="funcionPrincipal" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- SECCIÓN 8: EXPERIENCIA LABORAL -->
+                            <div class="section-header">
+                                <h4><i class="fas fa-history me-2"></i>8. EXPERIENCIA LABORAL</h4>
+                            </div>
+                            
+                            <div class="form-section">
+                                <div class="mb-3">
+                                    <label class="form-label">¿Ha laborado en el sector público?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="sectorPublico" id="sectorPublicoSi" value="si">
+                                        <label class="form-check-label" for="sectorPublicoSi">Sí</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="sectorPublico" id="sectorPublicoNo" value="no">
+                                        <label class="form-check-label" for="sectorPublicoNo">No</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">¿Ha laborado en el sector privado?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="sectorPrivado" id="sectorPrivadoSi" value="si">
+                                        <label class="form-check-label" for="sectorPrivadoSi">Sí</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="sectorPrivado" id="sectorPrivadoNo" value="no">
+                                        <label class="form-check-label" for="sectorPrivadoNo">No</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">¿Ha laborado en otros sectores?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="otrosSectores" id="otrosSectoresSi" value="si">
+                                        <label class="form-check-label" for="otrosSectoresSi">Sí</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="otrosSectores" id="otrosSectoresNo" value="no">
+                                        <label class="form-check-label" for="otrosSectoresNo">No</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="detallesExperiencia" class="form-label">Detalles de la Experiencia Laboral</label>
+                                    <textarea class="form-control" id="detallesExperiencia" name="detallesExperiencia" rows="4"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- SECCIÓN 3: DATOS CURRICULARES -->
+                            <div class="section-header">
+                                <h4><i class="fas fa-graduation-cap me-2"></i>3. DATOS CURRICULARES</h4>
+                            </div>
+                            
+                            <div class="form-section">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="nivelMaximoEstudios" class="form-label required-field">Nivel Máximo de Estudios</label>
+                                        <select class="form-select" id="nivelMaximoEstudios" name="nivelMaximoEstudios" required>
+                                            <option value="">Seleccione...</option>
+                                            <option value="Primaria">Primaria</option>
+                                            <option value="Secundaria">Secundaria</option>
+                                            <option value="Bachillerato">Bachillerato</option>
+                                            <option value="Carrera técnica o comercial">Carrera técnica o comercial</option>
+                                            <option value="Licenciatura">Licenciatura</option>
+                                            <option value="Especialidad">Especialidad</option>
+                                            <option value="Maestría">Maestría</option>
+                                            <option value="Doctorado">Doctorado</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="carrera" class="form-label">Carrera o Área de Conocimiento</label>
+                                        <input type="text" class="form-control" id="carrera" name="carrera">
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="institucionEducativa" class="form-label">Institución Educativa</label>
+                                        <input type="text" class="form-control" id="institucionEducativa" name="institucionEducativa">
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="estatusEducativo" class="form-label">Estatus</label>
+                                        <select class="form-select" id="estatusEducativo" name="estatusEducativo">
+                                            <option value="">Seleccione...</option>
+                                            <option value="Cursando">Cursando</option>
+                                            <option value="Finalizado">Finalizado</option>
+                                            <option value="Trunco">Trunco</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="añoEgreso" class="form-label">Año de Egreso</label>
+                                        <input type="number" class="form-control" id="añoEgreso" name="añoEgreso" min="1950" max="2025">
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="documentoObtenido" class="form-label">Documento Obtenido</label>
+                                        <select class="form-select" id="documentoObtenido" name="documentoObtenido">
+                                            <option value="">Seleccione...</option>
+                                            <option value="Boleta">Boleta</option>
+                                            <option value="Certificado">Certificado</option>
+                                            <option value="Constancia">Constancia</option>
+                                            <option value="Título">Título</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="fechaObtencionDocumento" class="form-label">Fecha de Obtención del Documento</label>
+                                        <input type="date" class="form-control" id="fechaObtencionDocumento" name="fechaObtencionDocumento">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="lugarInstitucion" class="form-label">Lugar donde se ubica la Institución</label>
+                                        <select class="form-select" id="lugarInstitucion" name="lugarInstitucion">
+                                            <option value="">Seleccione...</option>
+                                            <option value="En México">En México</option>
+                                            <option value="En el extranjero">En el extranjero</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        <label for="aclaracionesCurriculares" class="form-label">Aclaraciones / Observaciones</label>
+                                        <textarea class="form-control" id="aclaracionesCurriculares" name="aclaracionesCurriculares" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SECCIÓN 5: DATOS DE LA PAREJA -->
+                            <div class="section-header">
+                                <h4><i class="fas fa-heart me-2"></i>5. DATOS DE LA PAREJA</h4>
+                            </div>
+                            
+                            <div class="form-section">
+                                <div class="mb-3">
+                                    <label class="form-label">¿Tiene pareja?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="tienePareja" 
+                                               id="tieneParejaSi" value="si">
+                                        <label class="form-check-label" for="tieneParejaSi">Sí</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="tienePareja" 
+                                               id="tieneParejaNo" value="no">
+                                        <label class="form-check-label" for="tieneParejaNo">No</label>
+                                    </div>
+                                </div>
+                                
+                                <div id="parejaDetails" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label for="nombrePareja" class="form-label">Nombre(s)</label>
+                                            <input type="text" class="form-control" id="nombrePareja" name="nombrePareja">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="primerApellidoPareja" class="form-label">Primer Apellido</label>
+                                            <input type="text" class="form-control" id="primerApellidoPareja" name="primerApellidoPareja">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="segundoApellidoPareja" class="form-label">Segundo Apellido</label>
+                                            <input type="text" class="form-control" id="segundoApellidoPareja" name="segundoApellidoPareja">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label for="relacionDeclarante" class="form-label">Relación con el Declarante</label>
+                                            <select class="form-select" id="relacionDeclarante" name="relacionDeclarante">
+                                                <option value="">Seleccione...</option>
+                                                <option value="CÓNYUGE">Cónyuge</option>
+                                                <option value="CONCUBINA / CONCUBINARIO /UNIÓN LIBRE">Concubina/Concubinario/Unión Libre</option>
+                                                <option value="SOCIEDAD DE CONVIVENCIA">Sociedad de Convivencia</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="fechaNacimientoPareja" class="form-label">Fecha de Nacimiento</label>
+                                            <input type="date" class="form-control" id="fechaNacimientoPareja" name="fechaNacimientoPareja">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="rfcPareja" class="form-label">RFC</label>
+                                            <input type="text" class="form-control" id="rfcPareja" name="rfcPareja" 
+                                                   style="text-transform: uppercase;" maxlength="13">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label for="curpPareja" class="form-label">CURP</label>
+                                            <input type="text" class="form-control" id="curpPareja" name="curpPareja" 
+                                                   style="text-transform: uppercase;" maxlength="18">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">¿Es dependiente económico?</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="parejaEsDependiente" 
+                                                       id="parejaEsDependienteSi" value="si">
+                                                <label class="form-check-label" for="parejaEsDependienteSi">Sí</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="parejaEsDependiente" 
+                                                       id="parejaEsDependienteNo" value="no">
+                                                <label class="form-check-label" for="parejaEsDependienteNo">No</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">¿Es ciudadano extranjero?</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="parejaEsExtranjero" 
+                                                       id="parejaEsExtranjeroSi" value="si">
+                                                <label class="form-check-label" for="parejaEsExtranjeroSi">Sí</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="parejaEsExtranjero" 
+                                                       id="parejaEsExtranjeroNo" value="no">
+                                                <label class="form-check-label" for="parejaEsExtranjeroNo">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">¿Habita en el domicilio del declarante?</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="parejaHabitaDomicilio" 
+                                                       id="parejaHabitaDomicilioSi" value="si">
+                                                <label class="form-check-label" for="parejaHabitaDomicilioSi">Sí</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="parejaHabitaDomicilio" 
+                                                       id="parejaHabitaDomicilioNo" value="no">
+                                                <label class="form-check-label" for="parejaHabitaDomicilioNo">No</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="lugarResidePareja" class="form-label">Lugar donde reside</label>
+                                            <select class="form-select" id="lugarResidePareja" name="lugarResidePareja">
+                                                <option value="">Seleccione...</option>
+                                                <option value="EN MÉXICO">En México</option>
+                                                <option value="EN EL EXTRANJERO">En el extranjero</option>
+                                                <option value="SE DESCONOCE">Se desconoce</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">¿Es proveedor o contratista del gobierno?</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="parejaProveedorGob" 
+                                                       id="parejaProveedorGobSi" value="si">
+                                                <label class="form-check-label" for="parejaProveedorGobSi">Sí</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="parejaProveedorGob" 
+                                                       id="parejaProveedorGobNo" value="no">
+                                                <label class="form-check-label" for="parejaProveedorGobNo">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <h6><i class="fas fa-briefcase me-2"></i>Actividad Laboral de la Pareja</h6>
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label for="actividadLaboralPareja" class="form-label">Actividad Laboral</label>
+                                            <select class="form-select" id="actividadLaboralPareja" name="actividadLaboralPareja">
+                                                <option value="">Seleccione...</option>
+                                                <option value="PÚBLICO">Público</option>
+                                                <option value="PRIVADO">Privado</option>
+                                                <option value="OTRO">Otro</option>
+                                                <option value="NINGUNO">Ninguno</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="salarioMensualPareja" class="form-label">Salario Mensual Neto</label>
+                                            <div class="currency-input">
+                                                <input type="number" class="form-control" id="salarioMensualPareja" 
+                                                       name="salarioMensualPareja" step="0.01" min="0">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="fechaIngresoEmpleoPareja" class="form-label">Fecha de Ingreso al Empleo</label>
+                                            <input type="date" class="form-control" id="fechaIngresoEmpleoPareja" name="fechaIngresoEmpleoPareja">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="aclaracionesPareja" class="form-label">Aclaraciones/Observaciones</label>
+                                        <textarea class="form-control" id="aclaracionesPareja" name="aclaracionesPareja" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SECCIÓN 6: DEPENDIENTES ECONÓMICOS -->
+                            <div class="section-header">
+                                <h4><i class="fas fa-users me-2"></i>6. DEPENDIENTES ECONÓMICOS</h4>
+                            </div>
+                            
+                            <div class="form-section">
+                                <div class="mb-3">
+                                    <label class="form-label">¿Tiene dependientes económicos?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="tieneDependientes" 
+                                               id="tieneDependientesSi" value="si">
+                                        <label class="form-check-label" for="tieneDependientesSi">Sí</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="tieneDependientes" 
+                                               id="tieneDependientesNo" value="no">
+                                        <label class="form-check-label" for="tieneDependientesNo">No</label>
+                                    </div>
+                                </div>
+                                
+                                <div id="dependientesDetails" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-md-3 mb-3">
+                                            <label for="numeroDependientes" class="form-label">Número de Dependientes</label>
+                                            <input type="number" class="form-control" id="numeroDependientes" 
+                                                   name="numeroDependientes" min="0" max="20">
+                                        </div>
+                                        <div class="col-md-9 mb-3">
+                                            <label for="parentescoDependientes" class="form-label">Parentesco (separar por comas)</label>
+                                            <input type="text" class="form-control" id="parentescoDependientes" 
+                                                   name="parentescoDependientes" 
+                                                   placeholder="Ej: HIJO(A), MADRE, PADRE, HERMANO(A)">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <strong>Nota:</strong> Los parentescos disponibles incluyen: ABUELO(A), AHIJADO(A), CUÑADO(A), 
+                                        HERMANO(A), HIJO(A), MADRE, NIETO(A), NUERA, PADRE, PRIMO(A), SOBRINO(A), SUEGRO(A), TÍO(A), YERNO, OTRO.
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="detallesDependientes" class="form-label">Detalles Adicionales</label>
+                                        <textarea class="form-control" id="detallesDependientes" name="detallesDependientes" 
+                                                  rows="3" placeholder="Nombres, edades y otros detalles relevantes"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SECCIÓN 7: PARTICIPACIÓN EN EMPRESAS -->
+                            <div class="section-header">
+                                <h4><i class="fas fa-building me-2"></i>7. PARTICIPACIÓN EN EMPRESAS</h4>
+                            </div>
+                            
+                            <div class="form-section">
+                                <div class="mb-3">
+                                    <label class="form-label">¿Participa en empresas, sociedades o asociaciones?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="participaEnEmpresas" 
+                                               id="participaEmpresasSi" value="si">
+                                        <label class="form-check-label" for="participaEmpresasSi">Sí</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="participaEnEmpresas" 
+                                               id="participaEmpresasNo" value="no">
+                                        <label class="form-check-label" for="participaEmpresasNo">No</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3" id="tipoParticipacionContainer" style="display: none;">
+                                    <label class="form-label">Tipo de Participación (puede seleccionar varios):</label>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="tipoParticipacion" 
+                                                       value="SOCIO" id="socio">
+                                                <label class="form-check-label" for="socio">Socio</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="tipoParticipacion" 
+                                                       value="ACCIONISTA" id="accionista">
+                                                <label class="form-check-label" for="accionista">Accionista</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="tipoParticipacion" 
+                                                       value="COMISARIO" id="comisario">
+                                                <label class="form-check-label" for="comisario">Comisario</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="tipoParticipacion" 
+                                                       value="REPRESENTANTE" id="representante">
+                                                <label class="form-check-label" for="representante">Representante</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-md-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="tipoParticipacion" 
+                                                       value="APODERADO" id="apoderado">
+                                                <label class="form-check-label" for="apoderado">Apoderado</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="tipoParticipacion" 
+                                                       value="COLABORADOR" id="colaborador">
+                                                <label class="form-check-label" for="colaborador">Colaborador</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="tipoParticipacion" 
+                                                       value="BENEFICIARIO" id="beneficiario">
+                                                <label class="form-check-label" for="beneficiario">Beneficiario</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="detallesParticipacion" class="form-label">Detalles de la Participación</label>
+                                    <textarea class="form-control" id="detallesParticipacion" name="detallesParticipacion" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- SECCIÓN 9: INGRESOS DETALLADOS -->
+                            <div class="section-header">
+                                <h4><i class="fas fa-money-bill-wave me-2"></i>9. INGRESOS NETOS DETALLADOS</h4>
+                            </div>
+                            
+                            <div class="form-section">
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>Nota:</strong> Capture cantidades netas después de impuestos, entre el 1 de enero y 31 de diciembre del año inmediato anterior.
+                                </div>
+                                
+                                <h6><i class="fas fa-user-tie me-2"></i>I.- REMUNERACIÓN ANUAL NETA DEL DECLARANTE</h6>
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="sueldoSalarios" class="form-label">Sueldo y Salarios</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="sueldoSalarios" 
+                                                   name="sueldoSalarios" step="0.01" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="honorarios" class="form-label">Honorarios</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="honorarios" 
+                                                   name="honorarios" step="0.01" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="compensacionesBonos" class="form-label">Compensaciones y Bonos</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="compensacionesBonos" 
+                                                   name="compensacionesBonos" step="0.01" min="0">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="aguinaldos" class="form-label">Aguinaldos</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="aguinaldos" 
+                                                   name="aguinaldos" step="0.01" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="otrasPrestaciones" class="form-label">Otras Prestaciones</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="otrasPrestaciones" 
+                                                   name="otrasPrestaciones" step="0.01" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="totalRemuneracion" class="form-label">Total Remuneración</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="totalRemuneracion" 
+                                                   name="totalRemuneracion" step="0.01" min="0" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <hr>
+                                
+                                <h6><i class="fas fa-chart-line me-2"></i>II.- OTROS INGRESOS DEL DECLARANTE</h6>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="actividadIndustrial" class="form-label">Actividad Industrial, Comercial y/o Empresarial</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="actividadIndustrial" 
+                                                   name="actividadIndustrial" step="0.01" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="actividadFinanciera" class="form-label">Actividad Financiera (Rendimientos o Ganancias)</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="actividadFinanciera" 
+                                                   name="actividadFinanciera" step="0.01" min="0">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="serviciosProfesionales" class="form-label">Servicios Profesionales, Consejos, Consultorías y/o Asesorías</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="serviciosProfesionales" 
+                                                   name="serviciosProfesionales" step="0.01" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="enajenacionBienes" class="form-label">Enajenación de Bienes</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="enajenacionBienes" 
+                                                   name="enajenacionBienes" step="0.01" min="0">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="otrosIngresosNoConsiderados" class="form-label">Otros Ingresos (Arrendamiento, Regalías, Sorteos, etc.)</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="otrosIngresosNoConsiderados" 
+                                                   name="otrosIngresosNoConsiderados" step="0.01" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="totalOtrosIngresos" class="form-label">Total Otros Ingresos</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="totalOtrosIngresos" 
+                                                   name="totalOtrosIngresos" step="0.01" min="0" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <hr>
+                                
+                                <h6><i class="fas fa-users me-2"></i>RESUMEN DE INGRESOS</h6>
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="ingresoAnualNetoDeclarante" class="form-label">A.- Ingreso Anual Neto del Declarante</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="ingresoAnualNetoDeclarante" 
+                                                   name="ingresoAnualNetoDeclarante" step="0.01" min="0" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="ingresoAnualParejaDepend" class="form-label">B.- Ingreso Anual Pareja y/o Dependientes</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="ingresoAnualParejaDepend" 
+                                                   name="ingresoAnualParejaDepend" step="0.01" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="totalIngresosAnuales" class="form-label">C.- Total de Ingresos Anuales</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="totalIngresosAnuales" 
+                                                   name="totalIngresosAnuales" step="0.01" min="0" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="aclaracionesIngresos" class="form-label">Aclaraciones/Observaciones</label>
+                                    <textarea class="form-control" id="aclaracionesIngresos" name="aclaracionesIngresos" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- SECCIÓN 10: BIENES INMUEBLES -->
+                            <div class="section-header">
+                                <h4><i class="fas fa-house-user me-2"></i>10. BIENES INMUEBLES</h4>
+                            </div>
+                            
+                            <div class="form-section">
+                                <h5>Casa Habitación</h5>
+                                <div class="mb-3">
+                                    <label class="form-label">¿Posee casa habitación?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="casaHabitacion" 
+                                               id="casaHabitacionSi" value="si">
+                                        <label class="form-check-label" for="casaHabitacionSi">Sí</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="casaHabitacion" 
+                                               id="casaHabitacionNo" value="no">
+                                        <label class="form-check-label" for="casaHabitacionNo">No</label>
+                                    </div>
+                                </div>
+                                
+                                <div id="casaHabitacionDetails" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label for="valorCasaHabitacion" class="form-label">Valor Estimado</label>
+                                            <div class="currency-input">
+                                                <input type="number" class="form-control" id="valorCasaHabitacion" 
+                                                       name="valorCasaHabitacion" step="0.01" min="0">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="superficieCasaHabitacion" class="form-label">Superficie (m²)</label>
+                                            <input type="number" class="form-control" id="superficieCasaHabitacion" 
+                                                   name="superficieCasaHabitacion" step="0.01" min="0">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="ubicacionCasaHabitacion" class="form-label">Ubicación</label>
+                                            <input type="text" class="form-control" id="ubicacionCasaHabitacion" 
+                                                   name="ubicacionCasaHabitacion">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <hr>
+                                
+                                <h5>Otros Inmuebles</h5>
+                                <div class="mb-3">
+                                    <label class="form-label">¿Posee otros inmuebles?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="otrosInmuebles" 
+                                               id="otrosInmueblesSi" value="si">
+                                        <label class="form-check-label" for="otrosInmueblesSi">Sí</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="otrosInmuebles" 
+                                               id="otrosInmueblesNo" value="no">
+                                        <label class="form-check-label" for="otrosInmueblesNo">No</label>
+                                    </div>
+                                </div>
+                                
+                                <div id="otrosInmueblesDetails" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label for="cantidadOtrosInmuebles" class="form-label">Cantidad</label>
+                                            <input type="number" class="form-control" id="cantidadOtrosInmuebles" 
+                                                   name="cantidadOtrosInmuebles" min="0">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="valorOtrosInmuebles" class="form-label">Valor Total</label>
+                                            <div class="currency-input">
+                                                <input type="number" class="form-control" id="valorOtrosInmuebles" 
+                                                       name="valorOtrosInmuebles" step="0.01" min="0">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="descripcionOtrosInmuebles" class="form-label">Descripción</label>
+                                            <textarea class="form-control" id="descripcionOtrosInmuebles" 
+                                                      name="descripcionOtrosInmuebles" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SECCIÓN 11: VEHÍCULOS -->
+                            <div class="section-header">
+                                <h4><i class="fas fa-car me-2"></i>11. VEHÍCULOS</h4>
+                            </div>
+                            
+                            <div class="form-section">
+                                <div class="mb-3">
+                                    <label class="form-label">¿Posee vehículos?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="tieneVehiculos" 
+                                               id="tieneVehiculosSi" value="si">
+                                        <label class="form-check-label" for="tieneVehiculosSi">Sí</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="tieneVehiculos" 
+                                               id="tieneVehiculosNo" value="no">
+                                        <label class="form-check-label" for="tieneVehiculosNo">No</label>
+                                    </div>
+                                </div>
+                                
+                                <div id="vehiculosDetails" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label for="cantidadVehiculos" class="form-label">Cantidad</label>
+                                            <input type="number" class="form-control" id="cantidadVehiculos" 
+                                                   name="cantidadVehiculos" min="0">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="valorVehiculos" class="form-label">Valor Total</label>
+                                            <div class="currency-input">
+                                                <input type="number" class="form-control" id="valorVehiculos" 
+                                                       name="valorVehiculos" step="0.01" min="0">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="descripcionVehiculos" class="form-label">Descripción</label>
+                                            <textarea class="form-control" id="descripcionVehiculos" 
+                                                      name="descripcionVehiculos" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SECCIÓN 12: BIENES MUEBLES -->
+                            <div class="section-header">
+                                <h4><i class="fas fa-couch me-2"></i>12. BIENES MUEBLES</h4>
+                            </div>
+                            
+                            <div class="form-section">
+                                <div class="mb-3">
+                                    <label class="form-label">¿Posee bienes muebles de valor considerable?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="tieneBienesMuebles" 
+                                               id="tieneBienesMueblesSi" value="si">
+                                        <label class="form-check-label" for="tieneBienesMueblesSi">Sí</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="tieneBienesMuebles" 
+                                               id="tieneBienesMueblesNo" value="no">
+                                        <label class="form-check-label" for="tieneBienesMueblesNo">No</label>
+                                    </div>
+                                </div>
+                                
+                                <div id="bienesMueblesDetails" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="valorBienesMuebles" class="form-label">Valor Total</label>
+                                            <div class="currency-input">
+                                                <input type="number" class="form-control" id="valorBienesMuebles" 
+                                                       name="valorBienesMuebles" step="0.01" min="0">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="descripcionBienesMuebles" class="form-label">Descripción</label>
+                                            <textarea class="form-control" id="descripcionBienesMuebles" 
+                                                      name="descripcionBienesMuebles" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SECCIÓN 13: INVERSIONES Y CUENTAS BANCARIAS -->
+                            <div class="section-header">
+                                <h4><i class="fas fa-piggy-bank me-2"></i>13. INVERSIONES Y CUENTAS BANCARIAS</h4>
+                            </div>
+                            
+                            <div class="form-section">
+                                <h5>Cuentas Bancarias</h5>
+                                <div class="mb-3">
+                                    <label class="form-label">¿Posee cuentas bancarias?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="cuentasBancarias" 
+                                               id="cuentasBancariasSi" value="si">
+                                        <label class="form-check-label" for="cuentasBancariasSi">Sí</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="cuentasBancarias" 
+                                               id="cuentasBancariasNo" value="no">
+                                        <label class="form-check-label" for="cuentasBancariasNo">No</label>
+                                    </div>
+                                </div>
+                                
+                                <div id="cuentasBancariasDetails" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="numeroCuentasBancarias" class="form-label">Número de Productos</label>
+                                            <input type="number" class="form-control" id="numeroCuentasBancarias" 
+                                                   name="numeroCuentasBancarias" min="0">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="montoCuentasBancarias" class="form-label">Monto Total</label>
+                                            <div class="currency-input">
+                                                <input type="number" class="form-control" id="montoCuentasBancarias" 
+                                                       name="montoCuentasBancarias" step="0.01" min="0">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <hr>
+                                
+                                <h5>Inversiones en Valores</h5>
+                                <div class="mb-3">
+                                    <label class="form-label">¿Posee inversiones en valores?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="inversionesValores" 
+                                               id="inversionesValoresSi" value="si">
+                                        <label class="form-check-label" for="inversionesValoresSi">Sí</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="inversionesValores" 
+                                               id="inversionesValoresNo" value="no">
+                                        <label class="form-check-label" for="inversionesValoresNo">No</label>
+                                    </div>
+                                </div>
+                                
+                                <div id="inversionesValoresDetails" style="display: none;">
+                                    <div class="mb-3">
+                                        <label for="montoInversionesValores" class="form-label">Monto Total</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="montoInversionesValores" 
+                                                   name="montoInversionesValores" step="0.01" min="0">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Tipo de Inversiones (puede seleccionar varios):</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="tipoInversiones" 
+                                                   value="Acciones" id="acciones">
+                                            <label class="form-check-label" for="acciones">Acciones</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="tipoInversiones" 
+                                                   value="Bonos" id="bonos">
+                                            <label class="form-check-label" for="bonos">Bonos</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="tipoInversiones" 
+                                                   value="Fondos de Inversión" id="fondos">
+                                            <label class="form-check-label" for="fondos">Fondos de Inversión</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="tipoInversiones" 
+                                                   value="CETES" id="cetes">
+                                            <label class="form-check-label" for="cetes">CETES</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SECCIÓN 14: ADEUDOS -->
+                            <div class="section-header">
+                                <h4><i class="fas fa-credit-card me-2"></i>14. ADEUDOS</h4>
+                            </div>
+                            
+                            <div class="form-section">
+                                <div class="mb-3">
+                                    <label class="form-label">¿Tiene adeudos?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="tieneAdeudos" 
+                                               id="tieneAdeudosSi" value="si">
+                                        <label class="form-check-label" for="tieneAdeudosSi">Sí</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="tieneAdeudos" 
+                                               id="tieneAdeudosNo" value="no">
+                                        <label class="form-check-label" for="tieneAdeudosNo">No</label>
+                                    </div>
+                                </div>
+                                
+                                <div id="adeudosDetails" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="adeudosHipotecarios" 
+                                                       id="adeudosHipotecariosSi" value="si">
+                                                <label class="form-check-label" for="adeudosHipotecariosSi">Adeudos Hipotecarios</label>
+                                            </div>
+                                            <div class="currency-input mt-2">
+                                                <input type="number" class="form-control" id="montoAdeudosHipotecarios" 
+                                                       name="montoAdeudosHipotecarios" step="0.01" min="0" 
+                                                       placeholder="Monto">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="adeudosPersonales" 
+                                                       id="adeudosPersonalesSi" value="si">
+                                                <label class="form-check-label" for="adeudosPersonalesSi">Adeudos Personales</label>
+                                            </div>
+                                            <div class="currency-input mt-2">
+                                                <input type="number" class="form-control" id="montoAdeudosPersonales" 
+                                                       name="montoAdeudosPersonales" step="0.01" min="0" 
+                                                       placeholder="Monto">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="tarjetasCredito" 
+                                                       id="tarjetasCreditoSi" value="si">
+                                                <label class="form-check-label" for="tarjetasCreditoSi">Tarjetas de Crédito</label>
+                                            </div>
+                                            <div class="currency-input mt-2">
+                                                <input type="number" class="form-control" id="montoTarjetasCredito" 
+                                                       name="montoTarjetasCredito" step="0.01" min="0" 
+                                                       placeholder="Monto">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="otrosAdeudos" 
+                                                       id="otrosAdeudosSi" value="si">
+                                                <label class="form-check-label" for="otrosAdeudosSi">Otros Adeudos</label>
+                                            </div>
+                                            <div class="currency-input mt-2">
+                                                <input type="number" class="form-control" id="montoOtrosAdeudos" 
+                                                       name="montoOtrosAdeudos" step="0.01" min="0" 
+                                                       placeholder="Monto">
+                                            </div>
+                                            <textarea class="form-control mt-2" id="descripcionOtrosAdeudos" 
+                                                      name="descripcionOtrosAdeudos" rows="2" 
+                                                      placeholder="Descripción"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SECCIÓN 12: INGRESOS NETOS -->
+                            <div class="section-header">
+                                <h4><i class="fas fa-chart-line me-2"></i>12. INGRESOS NETOS DEL DECLARANTE</h4>
+                            </div>
+                            
+                            <div class="form-section">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="sueldoSalarios" class="form-label">Sueldo y Salarios (Anual)</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="sueldoSalarios" 
+                                                   name="sueldoSalarios" step="0.01" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="honorarios" class="form-label">Honorarios (Anual)</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="honorarios" 
+                                                   name="honorarios" step="0.01" min="0">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="actividadFinanciera" class="form-label">Actividad Financiera (Anual)</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="actividadFinanciera" 
+                                                   name="actividadFinanciera" step="0.01" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="actividadComercial" class="form-label">Actividad Comercial (Anual)</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="actividadComercial" 
+                                                   name="actividadComercial" step="0.01" min="0">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="otrosIngresos" class="form-label">Otros Ingresos (Anual)</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="otrosIngresos" 
+                                                   name="otrosIngresos" step="0.01" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="ingresosTotales" class="form-label">Total de Ingresos (Anual)</label>
+                                        <div class="currency-input">
+                                            <input type="number" class="form-control" id="ingresosTotales" 
+                                                   name="ingresosTotales" step="0.01" min="0" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SECCIÓN 15: DECLARACIÓN DE INTERESES -->
+                            <div class="section-header">
+                                <h4><i class="fas fa-handshake me-2"></i>15. DECLARACIÓN DE INTERESES</h4>
+                            </div>
+                            
+                            <div class="form-section">
+                                <div class="alert alert-warning">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    <strong>Importante:</strong> Esta sección se refiere a actividades y relaciones hasta los 2 últimos años.
+                                </div>
+                                
+                                <h6><i class="fas fa-building me-2"></i>Participación en Instituciones</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">¿Participa en la toma de decisiones de alguna institución?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="participaInstituciones" 
+                                               id="participaInstitucionesSi" value="si">
+                                        <label class="form-check-label" for="participaInstitucionesSi">Sí</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="participaInstituciones" 
+                                               id="participaInstitucionesNo" value="no">
+                                        <label class="form-check-label" for="participaInstitucionesNo">No</label>
+                                    </div>
+                                </div>
+                                
+                                <div id="institucionesDetails" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="tipoInstitucion" class="form-label">Tipo de Institución</label>
+                                            <select class="form-select" id="tipoInstitucion" name="tipoInstitucion">
+                                                <option value="">Seleccione...</option>
+                                                <option value="ORGANIZACIONES DE LA SOCIEDAD CIVIL">Organizaciones de la Sociedad Civil</option>
+                                                <option value="ORGANIZACIONES BENÉFICAS">Organizaciones Benéficas</option>
+                                                <option value="PARTIDOS POLÍTICOS">Partidos Políticos</option>
+                                                <option value="GREMIOS / SINDICATOS">Gremios / Sindicatos</option>
+                                                <option value="OTRO">Otro</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="nombreInstitucion" class="form-label">Nombre de la Institución</label>
+                                            <input type="text" class="form-control" id="nombreInstitucion" name="nombreInstitucion">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label for="puestoInstitucion" class="form-label">Puesto/Rol</label>
+                                            <input type="text" class="form-control" id="puestoInstitucion" name="puestoInstitucion">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="fechaInicioInstitucion" class="form-label">Fecha de Inicio</label>
+                                            <input type="date" class="form-control" id="fechaInicioInstitucion" name="fechaInicioInstitucion">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">¿Recibe remuneración?</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="remuneracionInstitucion" 
+                                                       id="remuneracionInstitucionSi" value="si">
+                                                <label class="form-check-label" for="remuneracionInstitucionSi">Sí</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="remuneracionInstitucion" 
+                                                       id="remuneracionInstitucionNo" value="no">
+                                                <label class="form-check-label" for="remuneracionInstitucionNo">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <hr>
+                                
+                                <h6><i class="fas fa-gift me-2"></i>Apoyos o Beneficios Públicos</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">¿Ha recibido apoyos o beneficios públicos?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="recibeBeneficios" 
+                                               id="recibeBeneficiosSi" value="si">
+                                        <label class="form-check-label" for="recibeBeneficiosSi">Sí</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="recibeBeneficios" 
+                                               id="recibeBeneficiosNo" value="no">
+                                        <label class="form-check-label" for="recibeBeneficiosNo">No</label>
+                                    </div>
+                                </div>
+                                
+                                <div id="beneficiosDetails" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label for="nombrePrograma" class="form-label">Nombre del Programa</label>
+                                            <input type="text" class="form-control" id="nombrePrograma" name="nombrePrograma">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="institucionOtorga" class="form-label">Institución que Otorga</label>
+                                            <input type="text" class="form-control" id="institucionOtorga" name="institucionOtorga">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="nivelGobiernoApoyo" class="form-label">Nivel de Gobierno</label>
+                                            <select class="form-select" id="nivelGobiernoApoyo" name="nivelGobiernoApoyo">
+                                                <option value="">Seleccione...</option>
+                                                <option value="FEDERAL">Federal</option>
+                                                <option value="ESTATAL">Estatal</option>
+                                                <option value="MUNICIPAL / ALCALDÍA">Municipal / Alcaldía</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label for="tipoApoyo" class="form-label">Tipo de Apoyo</label>
+                                            <select class="form-select" id="tipoApoyo" name="tipoApoyo">
+                                                <option value="">Seleccione...</option>
+                                                <option value="SUBSIDIO">Subsidio</option>
+                                                <option value="SERVICIO">Servicio</option>
+                                                <option value="OBRA">Obra</option>
+                                                <option value="OTRO">Otro</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="montoApoyo" class="form-label">Monto Aproximado Mensual</label>
+                                            <div class="currency-input">
+                                                <input type="number" class="form-control" id="montoApoyo" 
+                                                       name="montoApoyo" step="0.01" min="0">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="formaRecepcionApoyo" class="form-label">Forma de Recepción</label>
+                                            <select class="form-select" id="formaRecepcionApoyo" name="formaRecepcionApoyo">
+                                                <option value="">Seleccione...</option>
+                                                <option value="MONETARIO">Monetario</option>
+                                                <option value="ESPECIE">Especie</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <hr>
+                                
+                                <h6><i class="fas fa-user-tie me-2"></i>Representación</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">¿Ha ejercido representación?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ejerceRepresentacion" 
+                                               id="ejerceRepresentacionSi" value="si">
+                                        <label class="form-check-label" for="ejerceRepresentacionSi">Sí</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ejerceRepresentacion" 
+                                               id="ejerceRepresentacionNo" value="no">
+                                        <label class="form-check-label" for="ejerceRepresentacionNo">No</label>
+                                    </div>
+                                </div>
+                                
+                                <div id="representacionDetails" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label for="tipoRepresentacion" class="form-label">Tipo de Representación</label>
+                                            <select class="form-select" id="tipoRepresentacion" name="tipoRepresentacion">
+                                                <option value="">Seleccione...</option>
+                                                <option value="REPRESENTANTE">Representante</option>
+                                                <option value="REPRESENTADO">Representado</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="nombreRepresentado" class="form-label">Nombre o Razón Social</label>
+                                            <input type="text" class="form-control" id="nombreRepresentado" name="nombreRepresentado">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="fechaInicioRepresentacion" class="form-label">Fecha de Inicio</label>
+                                            <input type="date" class="form-control" id="fechaInicioRepresentacion" name="fechaInicioRepresentacion">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">¿Recibe remuneración por su representación?</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="remuneracionRepresentacion" 
+                                                       id="remuneracionRepresentacionSi" value="si">
+                                                <label class="form-check-label" for="remuneracionRepresentacionSi">Sí</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="remuneracionRepresentacion" 
+                                                       id="remuneracionRepresentacionNo" value="no">
+                                                <label class="form-check-label" for="remuneracionRepresentacionNo">No</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="montoRepresentacion" class="form-label">Monto Mensual Neto</label>
+                                            <div class="currency-input">
+                                                <input type="number" class="form-control" id="montoRepresentacion" 
+                                                       name="montoRepresentacion" step="0.01" min="0">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <hr>
+                                
+                                <h6><i class="fas fa-users me-2"></i>Clientes Principales</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">¿Realiza alguna actividad lucrativa independiente al empleo?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="actividadLucrativa" 
+                                               id="actividadLucrativaSi" value="si">
+                                        <label class="form-check-label" for="actividadLucrativaSi">Sí</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="actividadLucrativa" 
+                                               id="actividadLucrativaNo" value="no">
+                                        <label class="form-check-label" for="actividadLucrativaNo">No</label>
+                                    </div>
+                                </div>
+                                
+                                <div id="clientesDetails" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="nombreClientePrincipal" class="form-label">Nombre del Cliente Principal</label>
+                                            <input type="text" class="form-control" id="nombreClientePrincipal" name="nombreClientePrincipal">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="nombreEmpresaServicio" class="form-label">Nombre de la Empresa o Servicio</label>
+                                            <input type="text" class="form-control" id="nombreEmpresaServicio" name="nombreEmpresaServicio">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="sectorProductivoCliente" class="form-label">Sector Productivo</label>
+                                            <select class="form-select" id="sectorProductivoCliente" name="sectorProductivoCliente">
+                                                <option value="">Seleccione...</option>
+                                                <option value="AGRICULTURA">Agricultura</option>
+                                                <option value="MINERÍA">Minería</option>
+                                                <option value="ENERGÍA ELÉCTRICA">Energía Eléctrica</option>
+                                                <option value="CONSTRUCCIÓN">Construcción</option>
+                                                <option value="INDUSTRIA MANUFACTURERA">Industria Manufacturera</option>
+                                                <option value="COMERCIO AL POR MAYOR">Comercio al por Mayor</option>
+                                                <option value="COMERCIO AL POR MENOR">Comercio al por Menor</option>
+                                                <option value="TRANSPORTE">Transporte</option>
+                                                <option value="MEDIOS MASIVOS">Medios Masivos</option>
+                                                <option value="SERVICIOS FINANCIEROS">Servicios Financieros</option>
+                                                <option value="SERVICIOS INMOBILIARIOS">Servicios Inmobiliarios</option>
+                                                <option value="SERVICIOS PROFESIONALES">Servicios Profesionales</option>
+                                                <option value="SERVICIOS CORPORATIVOS">Servicios Corporativos</option>
+                                                <option value="SERVICIOS DE SALUD">Servicios de Salud</option>
+                                                <option value="SERVICIOS DE ESPARCIMIENTO">Servicios de Esparcimiento</option>
+                                                <option value="SERVICIOS DE ALOJAMIENTO">Servicios de Alojamiento</option>
+                                                <option value="OTRO">Otro</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="montoBeneficioCliente" class="form-label">Monto Aproximado del Beneficio Mensual</label>
+                                            <div class="currency-input">
+                                                <input type="number" class="form-control" id="montoBeneficioCliente" 
+                                                       name="montoBeneficioCliente" step="0.01" min="0">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <strong>Nota:</strong> Se manifestará el beneficio o ganancia directa si supera mensualmente 250 UMA.
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="aclaracionesIntereses" class="form-label">Aclaraciones/Observaciones de Intereses</label>
+                                    <textarea class="form-control" id="aclaracionesIntereses" name="aclaracionesIntereses" rows="3"></textarea>
+                                </div>
+
+                            <!-- BOTONES -->
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg me-3">
+                                    <i class="fas fa-save me-2"></i>
+                                    Guardar Declaración
+                                </button>
+                                <a href="/declarations" class="btn btn-outline-secondary btn-lg">
+                                    <i class="fas fa-arrow-left me-2"></i>
+                                    Cancelar
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h6><i class="fas fa-file-alt me-2"></i>Declara.net</h6>
+                    <p class="text-muted small">Sistema de Captura de Declaraciones Patrimoniales</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="text-muted small">
+                        © 2025 Declara.net. Todos los derechos reservados.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Funcionalidad para mostrar/ocultar secciones condicionales
+        document.addEventListener('DOMContentLoaded', function() {
+            // Pareja
+            const tienePareja = document.querySelectorAll('input[name="tienePareja"]');
+            const parejaDetails = document.getElementById('parejaDetails');
+            
+            tienePareja.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'si') {
+                        parejaDetails.style.display = 'block';
+                    } else {
+                        parejaDetails.style.display = 'none';
+                    }
+                });
+            });
+
+            // Dependientes económicos
+            const tieneDependientes = document.querySelectorAll('input[name="tieneDependientes"]');
+            const dependientesDetails = document.getElementById('dependientesDetails');
+            
+            tieneDependientes.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'si') {
+                        dependientesDetails.style.display = 'block';
+                    } else {
+                        dependientesDetails.style.display = 'none';
+                    }
+                });
+            });
+
+            // Participación en empresas
+            const participaEmpresas = document.querySelectorAll('input[name="participaEnEmpresas"]');
+            const tipoParticipacionContainer = document.getElementById('tipoParticipacionContainer');
+            
+            participaEmpresas.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'si') {
+                        tipoParticipacionContainer.style.display = 'block';
+                    } else {
+                        tipoParticipacionContainer.style.display = 'none';
+                    }
+                });
+            });
+
+            // Casa habitación
+            const casaHabitacion = document.querySelectorAll('input[name="casaHabitacion"]');
+            const casaHabitacionDetails = document.getElementById('casaHabitacionDetails');
+            
+            casaHabitacion.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'si') {
+                        casaHabitacionDetails.style.display = 'block';
+                    } else {
+                        casaHabitacionDetails.style.display = 'none';
+                    }
+                });
+            });
+
+            // Otros inmuebles
+            const otrosInmuebles = document.querySelectorAll('input[name="otrosInmuebles"]');
+            const otrosInmueblesDetails = document.getElementById('otrosInmueblesDetails');
+            
+            otrosInmuebles.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'si') {
+                        otrosInmueblesDetails.style.display = 'block';
+                    } else {
+                        otrosInmueblesDetails.style.display = 'none';
+                    }
+                });
+            });
+
+            // Vehículos
+            const tieneVehiculos = document.querySelectorAll('input[name="tieneVehiculos"]');
+            const vehiculosDetails = document.getElementById('vehiculosDetails');
+            
+            tieneVehiculos.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'si') {
+                        vehiculosDetails.style.display = 'block';
+                    } else {
+                        vehiculosDetails.style.display = 'none';
+                    }
+                });
+            });
+
+            // Bienes muebles
+            const tieneBienesMuebles = document.querySelectorAll('input[name="tieneBienesMuebles"]');
+            const bienesMueblesDetails = document.getElementById('bienesMueblesDetails');
+            
+            tieneBienesMuebles.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'si') {
+                        bienesMueblesDetails.style.display = 'block';
+                    } else {
+                        bienesMueblesDetails.style.display = 'none';
+                    }
+                });
+            });
+
+            // Cuentas bancarias
+            const cuentasBancarias = document.querySelectorAll('input[name="cuentasBancarias"]');
+            const cuentasBancariasDetails = document.getElementById('cuentasBancariasDetails');
+            
+            cuentasBancarias.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'si') {
+                        cuentasBancariasDetails.style.display = 'block';
+                    } else {
+                        cuentasBancariasDetails.style.display = 'none';
+                    }
+                });
+            });
+
+            // Inversiones en valores
+            const inversionesValores = document.querySelectorAll('input[name="inversionesValores"]');
+            const inversionesValoresDetails = document.getElementById('inversionesValoresDetails');
+            
+            inversionesValores.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'si') {
+                        inversionesValoresDetails.style.display = 'block';
+                    } else {
+                        inversionesValoresDetails.style.display = 'none';
+                    }
+                });
+            });
+
+            // Declaración de Intereses - Participación en instituciones
+            const participaInstituciones = document.querySelectorAll('input[name="participaInstituciones"]');
+            const institucionesDetails = document.getElementById('institucionesDetails');
+            
+            participaInstituciones.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'si') {
+                        institucionesDetails.style.display = 'block';
+                    } else {
+                        institucionesDetails.style.display = 'none';
+                    }
+                });
+            });
+
+            // Declaración de Intereses - Beneficios públicos
+            const recibeBeneficios = document.querySelectorAll('input[name="recibeBeneficios"]');
+            const beneficiosDetails = document.getElementById('beneficiosDetails');
+            
+            recibeBeneficios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'si') {
+                        beneficiosDetails.style.display = 'block';
+                    } else {
+                        beneficiosDetails.style.display = 'none';
+                    }
+                });
+            });
+
+            // Declaración de Intereses - Representación
+            const ejerceRepresentacion = document.querySelectorAll('input[name="ejerceRepresentacion"]');
+            const representacionDetails = document.getElementById('representacionDetails');
+            
+            ejerceRepresentacion.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'si') {
+                        representacionDetails.style.display = 'block';
+                    } else {
+                        representacionDetails.style.display = 'none';
+                    }
+                });
+            });
+
+            // Declaración de Intereses - Actividad lucrativa/Clientes
+            const actividadLucrativa = document.querySelectorAll('input[name="actividadLucrativa"]');
+            const clientesDetails = document.getElementById('clientesDetails');
+            
+            actividadLucrativa.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'si') {
+                        clientesDetails.style.display = 'block';
+                    } else {
+                        clientesDetails.style.display = 'none';
+                    }
+                });
+            });
+
+            // Adeudos
+            const tieneAdeudos = document.querySelectorAll('input[name="tieneAdeudos"]');
+            const adeudosDetails = document.getElementById('adeudosDetails');
+            
+            tieneAdeudos.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'si') {
+                        adeudosDetails.style.display = 'block';
+                    } else {
+                        adeudosDetails.style.display = 'none';
+                    }
+                });
+            });
+
+            // Calcular ingresos totales automáticamente
+            const remuneracionInputs = [
+                'sueldoSalarios', 'honorarios', 'compensacionesBonos', 
+                'aguinaldos', 'otrasPrestaciones'
+            ];
+            
+            const otrosIngresosInputs = [
+                'actividadIndustrial', 'actividadFinanciera', 'serviciosProfesionales', 
+                'enajenacionBienes', 'otrosIngresosNoConsiderados'
+            ];
+            
+            function calcularTotalRemuneracion() {
+                let total = 0;
+                remuneracionInputs.forEach(inputId => {
+                    const input = document.getElementById(inputId);
+                    if (input && input.value) {
+                        total += parseFloat(input.value) || 0;
+                    }
+                });
+                const totalInput = document.getElementById('totalRemuneracion');
+                if (totalInput) {
+                    totalInput.value = total.toFixed(2);
+                }
+                calcularIngresoAnualDeclarante();
+            }
+            
+            function calcularTotalOtrosIngresos() {
+                let total = 0;
+                otrosIngresosInputs.forEach(inputId => {
+                    const input = document.getElementById(inputId);
+                    if (input && input.value) {
+                        total += parseFloat(input.value) || 0;
+                    }
+                });
+                const totalInput = document.getElementById('totalOtrosIngresos');
+                if (totalInput) {
+                    totalInput.value = total.toFixed(2);
+                }
+                calcularIngresoAnualDeclarante();
+            }
+            
+            function calcularIngresoAnualDeclarante() {
+                const totalRemuneracion = parseFloat(document.getElementById('totalRemuneracion')?.value || 0);
+                const totalOtrosIngresos = parseFloat(document.getElementById('totalOtrosIngresos')?.value || 0);
+                const total = totalRemuneracion + totalOtrosIngresos;
+                
+                const ingresoDeclaranteInput = document.getElementById('ingresoAnualNetoDeclarante');
+                if (ingresoDeclaranteInput) {
+                    ingresoDeclaranteInput.value = total.toFixed(2);
+                }
+                calcularTotalIngresosAnuales();
+            }
+            
+            function calcularTotalIngresosAnuales() {
+                const ingresoDeclarante = parseFloat(document.getElementById('ingresoAnualNetoDeclarante')?.value || 0);
+                const ingresoParejaDepend = parseFloat(document.getElementById('ingresoAnualParejaDepend')?.value || 0);
+                const total = ingresoDeclarante + ingresoParejaDepend;
+                
+                const totalInput = document.getElementById('totalIngresosAnuales');
+                if (totalInput) {
+                    totalInput.value = total.toFixed(2);
+                }
+            }
+            
+            // Agregar event listeners para cálculos automáticos
+            remuneracionInputs.forEach(inputId => {
+                const input = document.getElementById(inputId);
+                if (input) {
+                    input.addEventListener('input', calcularTotalRemuneracion);
+                }
+            });
+            
+            otrosIngresosInputs.forEach(inputId => {
+                const input = document.getElementById(inputId);
+                if (input) {
+                    input.addEventListener('input', calcularTotalOtrosIngresos);
+                }
+            });
+            
+            const ingresoParejaInput = document.getElementById('ingresoAnualParejaDepend');
+            if (ingresoParejaInput) {
+                ingresoParejaInput.addEventListener('input', calcularTotalIngresosAnuales);
+            }
+
+            // Calcular ingresos totales (legacy)
+            const ingresosInputs = [
+                'sueldoSalarios', 'honorarios', 'actividadFinanciera', 
+                'actividadComercial', 'otrosIngresos'
+            ];
+            
+            ingresosInputs.forEach(inputId => {
+                const input = document.getElementById(inputId);
+                if (input) {
+                    input.addEventListener('input', calcularIngresosTotales);
+                }
+            });
+
+            function calcularIngresosTotales() {
+                let total = 0;
+                ingresosInputs.forEach(inputId => {
+                    const input = document.getElementById(inputId);
+                    if (input && input.value) {
+                        total += parseFloat(input.value) || 0;
+                    }
+                });
+                const ingresosTotalesInput = document.getElementById('ingresosTotales');
+                if (ingresosTotalesInput) {
+                    ingresosTotalesInput.value = total.toFixed(2);
+                }
+            }
+
+            // Progress bar
+            const form = document.getElementById('declarationForm');
+            const progressBar = document.getElementById('formProgress');
+            const progressText = document.getElementById('progressText');
+            
+            function updateProgress() {
+                const inputs = form.querySelectorAll('input[required], select[required]');
+                let completed = 0;
+                
+                inputs.forEach(input => {
+                    if (input.value.trim() !== '') {
+                        completed++;
+                    }
+                });
+                
+                const percentage = Math.round((completed / inputs.length) * 100);
+                progressBar.style.width = percentage + '%';
+                progressText.textContent = percentage + '%';
+            }
+
+            // Actualizar progreso en tiempo real
+            form.addEventListener('input', updateProgress);
+            form.addEventListener('change', updateProgress);
+            
+            // Actualización inicial
+            updateProgress();
+
+            // Validar CURP
+            document.getElementById('curp').addEventListener('input', function(e) {
+                const curp = e.target.value.toUpperCase();
+                e.target.value = curp;
+                
+                if (curp.length === 18) {
+                    const curpPattern = /^[A-Z]{4}[0-9]{6}[HM][A-Z]{5}[0-9A-Z][0-9]$/;
+                    if (!curpPattern.test(curp)) {
+                        e.target.setCustomValidity('CURP inválida');
+                    } else {
+                        e.target.setCustomValidity('');
+                    }
+                }
+            });
+
+            // Validar código postal
+            document.getElementById('codigoPostal').addEventListener('input', function(e) {
+                const cp = e.target.value;
+                if (cp.length === 5 && !/^\d{5}$/.test(cp)) {
+                    e.target.setCustomValidity('Código postal debe tener 5 dígitos');
+                } else {
+                    e.target.setCustomValidity('');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

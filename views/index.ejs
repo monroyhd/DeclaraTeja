@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-balance-scale me-2"></i>
+                DeclaraTEJA
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">
+                            <i class="fas fa-home me-1"></i>INICIO
+                        </a>
+                    </li>
+                    <% if (locals.user) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/declarations">
+                                <i class="fas fa-file-contract me-1"></i>MIS DECLARACIONES
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/declarations/new">
+                                <i class="fas fa-plus-circle me-1"></i>NUEVA DECLARACIÓN
+                            </a>
+                        </li>
+                    <% } %>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    <% if (locals.user) { %>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-tie me-1"></i>
+                                <%= user.nombre %>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><span class="dropdown-item-text small"><strong>RFC:</strong> <%= user.rfc %></span></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form action="/auth/logout" method="POST" class="d-inline">
+                                        <button type="submit" class="dropdown-item">
+                                            <i class="fas fa-sign-out-alt me-1"></i>
+                                            Cerrar Sesión
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/auth/login">
+                                <i class="fas fa-sign-in-alt me-1"></i>INICIAR SESIÓN
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/auth/register">
+                                <i class="fas fa-user-plus me-1"></i>REGISTRO
+                            </a>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section bg-light py-5" style="background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold text-primary mb-3">
+                        <i class="fas fa-balance-scale me-3"></i>
+                        DeclaraTEJA
+                    </h1>
+                    <h2 class="h4 text-secondary mb-3">
+                        TRIBUNAL ESTATAL DE JUSTICIA ADMINISTRATIVA DE BAJA CALIFORNIA
+                    </h2>
+                    <p class="lead text-muted mb-4">
+                        Sistema oficial de captura de declaraciones patrimoniales y de intereses. 
+                        Cumple con tus obligaciones de transparencia de forma segura y organizada.
+                    </p>
+                    <% if (!locals.user) { %>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                            <a href="/auth/register" class="btn btn-primary btn-lg px-4 me-md-2">
+                                <i class="fas fa-user-plus me-2"></i>
+                                REGISTRARSE
+                            </a>
+                            <a href="/auth/login" class="btn btn-outline-primary btn-lg px-4">
+                                <i class="fas fa-sign-in-alt me-2"></i>
+                                INICIAR SESIÓN
+                            </a>
+                        </div>
+                    <% } else { %>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                            <a href="/declarations/new" class="btn btn-primary btn-lg px-4 me-md-2">
+                                <i class="fas fa-plus me-2"></i>
+                                NUEVA DECLARACIÓN
+                            </a>
+                            <a href="/declarations" class="btn btn-outline-primary btn-lg px-4">
+                                <i class="fas fa-list me-2"></i>
+                                MIS DECLARACIONES
+                            </a>
+                        </div>
+                    <% } %>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <i class="fas fa-file-contract display-1 text-primary opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-shield-alt fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="card-title">SEGURIDAD Y CONFIABILIDAD</h5>
+                        <p class="card-text">
+                            Sistema oficial del TEJABC con máxima seguridad. Tus datos están protegidos 
+                            bajo los estándares institucionales más rigurosos.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-gavel fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="card-title">CUMPLIMIENTO LEGAL</h5>
+                        <p class="card-text">
+                            Cumple con todas las obligaciones legales de transparencia y declaración 
+                            patrimonial establecidas en la normatividad vigente.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-file-download fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="card-title">ORGANIZACIÓN DIGITAL</h5>
+                        <p class="card-text">
+                            Las declaraciones se almacenan en formato JSON estructurado, 
+                            organizadas por año y RFC para consulta eficiente.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How it Works Section -->
+    <% if (!locals.user) { %>
+    <div class="bg-light py-5" style="background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%) !important;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <h2 class="display-6 fw-bold text-primary">PROCESO DE DECLARACIÓN</h2>
+                    <p class="lead text-muted">Tres pasos para cumplir con tus obligaciones de transparencia</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="text-center">
+                        <div class="step-number mb-3">
+                            <span class="badge bg-primary rounded-pill fs-4 px-3 py-2">1</span>
+                        </div>
+                        <h5 class="text-uppercase">REGÍSTRATE</h5>
+                        <p class="text-muted">Crea tu cuenta oficial con tu RFC y datos personales</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="text-center">
+                        <div class="step-number mb-3">
+                            <span class="badge bg-primary rounded-pill fs-4 px-3 py-2">2</span>
+                        </div>
+                        <h5 class="text-uppercase">DECLARA</h5>
+                        <p class="text-muted">Completa el formulario oficial con tu información patrimonial</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="text-center">
+                        <div class="step-number mb-3">
+                            <span class="badge bg-primary rounded-pill fs-4 px-3 py-2">3</span>
+                        </div>
+                        <h5 class="text-uppercase">CUMPLE</h5>
+                        <p class="text-muted">Tu declaración se almacena de forma segura para consulta futura</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4 mt-5" style="background: linear-gradient(135deg, var(--tejabc-blue), var(--tejabc-dark-blue)) !important;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h6><i class="fas fa-balance-scale me-2"></i>DeclaraTEJA</h6>
+                    <p class="text-light small mb-1">
+                        <strong>TRIBUNAL ESTATAL DE JUSTICIA ADMINISTRATIVA DE BAJA CALIFORNIA</strong>
+                    </p>
+                    <p class="text-light small opacity-75">
+                        Sistema Oficial de Declaraciones Patrimoniales y de Intereses
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <p class="text-light small">
+                        © 2025 TEJABC. Todos los derechos reservados.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://tejabc.mx" target="_blank" class="text-light me-2">
+                            <i class="fas fa-globe"></i>
+                        </a>
+                        <a href="https://tejabc.mx/transparencia" target="_blank" class="text-light me-2">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a href="mailto:buzon.pleno@tejabc.mx" class="text-light">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

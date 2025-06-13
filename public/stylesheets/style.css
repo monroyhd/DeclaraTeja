@@ -1,0 +1,405 @@
+/* Paleta de colores institucional TEJABC */
+:root {
+  --tejabc-blue: #1a4b84;           /* Azul institucional principal */
+  --tejabc-dark-blue: #0f3460;     /* Azul oscuro */
+  --tejabc-red: #b91c1c;           /* Rojo institucional */
+  --tejabc-gold: #f59e0b;          /* Dorado institucional */
+  --tejabc-green: #059669;         /* Verde institucional */
+  --tejabc-light-gray: #f8fafc;    /* Fondo claro */
+  --tejabc-dark-gray: #374151;     /* Texto oscuro */
+  --tejabc-border: #d1d5db;        /* Bordes */
+  --tejabc-white: #ffffff;         /* Blanco */
+}
+
+body {
+  padding: 0;
+  font-family: 'Arial', 'Helvetica', sans-serif;
+  background-color: var(--tejabc-light-gray);
+  color: var(--tejabc-dark-gray);
+  line-height: 1.6;
+}
+
+a {
+  color: var(--tejabc-blue);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--tejabc-dark-blue);
+  text-decoration: underline;
+}
+
+/* Estilos para navegación institucional */
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.bg-primary {
+  background: linear-gradient(135deg, var(--tejabc-blue), var(--tejabc-dark-blue)) !important;
+  border-bottom: 3px solid var(--tejabc-gold);
+}
+
+/* Estilos institucionales para botones */
+.btn-primary {
+  background: linear-gradient(135deg, var(--tejabc-blue), var(--tejabc-dark-blue));
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--tejabc-dark-blue), var(--tejabc-blue));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(26, 75, 132, 0.3);
+}
+
+.btn-outline-primary {
+  border: 2px solid var(--tejabc-blue);
+  color: var(--tejabc-blue);
+  background: transparent;
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--tejabc-blue);
+  border-color: var(--tejabc-blue);
+  color: white;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, var(--tejabc-green), #10b981);
+  border: none;
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, var(--tejabc-gold), #f97316);
+  border: none;
+  color: white;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, var(--tejabc-red), #dc2626);
+  border: none;
+}
+
+/* Estilos institucionales para tarjetas */
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  border-left: 4px solid var(--tejabc-gold);
+}
+
+.card-header {
+  background: linear-gradient(135deg, var(--tejabc-blue), var(--tejabc-dark-blue));
+  color: white;
+  border: none;
+  padding: 1.25rem 1.5rem;
+}
+
+.card-header h1, .card-header h2, .card-header h3, .card-header h4, .card-header h5, .card-header h6 {
+  margin: 0;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Estilos para alertas institucionales */
+.alert-info {
+  background-color: #e0f2fe;
+  border: 1px solid var(--tejabc-blue);
+  color: var(--tejabc-dark-blue);
+  border-radius: 8px;
+  border-left: 4px solid var(--tejabc-blue);
+}
+
+.alert-success {
+  background-color: #dcfce7;
+  border: 1px solid var(--tejabc-green);
+  color: #166534;
+  border-radius: 8px;
+  border-left: 4px solid var(--tejabc-green);
+}
+
+.alert-warning {
+  background-color: #fef3c7;
+  border: 1px solid var(--tejabc-gold);
+  color: #92400e;
+  border-radius: 8px;
+  border-left: 4px solid var(--tejabc-gold);
+}
+
+.alert-danger {
+  background-color: #fee2e2;
+  border: 1px solid var(--tejabc-red);
+  color: #991b1b;
+  border-radius: 8px;
+  border-left: 4px solid var(--tejabc-red);
+}
+
+/* Estilos para formularios institucionales */
+.form-control, .form-select {
+  border: 2px solid var(--tejabc-border);
+  border-radius: 6px;
+  padding: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--tejabc-blue);
+  box-shadow: 0 0 0 0.2rem rgba(26, 75, 132, 0.15);
+}
+
+.form-label {
+  font-weight: 600;
+  color: var(--tejabc-dark-gray);
+  margin-bottom: 0.5rem;
+}
+
+/* Estilos para el formulario de declaraciones */
+.form-section {
+  transition: all 0.3s ease;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--tejabc-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid var(--tejabc-green);
+}
+
+.form-section:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.section-header {
+  background: linear-gradient(135deg, var(--tejabc-blue), var(--tejabc-dark-blue));
+  color: white;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0 1rem 0;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(26, 75, 132, 0.2);
+  border-left: 4px solid var(--tejabc-gold);
+}
+
+.section-header h4 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.required-field::after {
+  content: ' *';
+  color: var(--tejabc-red);
+  font-weight: bold;
+}
+
+/* Estilos para campos monetarios */
+.currency-input {
+  position: relative;
+}
+
+.currency-input::before {
+  content: '$';
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.currency-input input {
+  padding-left: 25px;
+}
+
+/* Animaciones para campos condicionales */
+.conditional-field {
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+/* Estilos para la barra de progreso */
+.form-progress {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Estilos para badges */
+.badge {
+  font-size: 0.75em;
+}
+
+/* Estilos para impresión */
+@media print {
+  .navbar, 
+  .print-btn, 
+  .btn-container, 
+  footer,
+  .btn,
+  .form-progress { 
+    display: none !important; 
+  }
+  
+  .container { 
+    max-width: none !important; 
+    padding: 0 !important;
+  }
+  
+  .card {
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  .section-header {
+    background: #6c757d !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .info-section {
+    border: 1px solid #dee2e6 !important;
+    break-inside: avoid;
+  }
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .currency-input::before {
+    left: 8px;
+  }
+  
+  .currency-input input {
+    padding-left: 20px;
+  }
+  
+  .section-header h4 {
+    font-size: 1.1rem;
+  }
+  
+  .print-btn {
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
+
+/* Mejoras de accesibilidad */
+.form-control:focus,
+.form-select:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.required-field::after {
+  content: ' *';
+  color: #dc3545;
+  font-weight: bold;
+}
+
+/* Estados de validación */
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.is-valid {
+  border-color: #28a745;
+}
+
+/* Animaciones suaves */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilos para alertas */
+.alert {
+  border: none;
+  border-radius: 8px;
+}
+
+.alert-success {
+  background-color: #d1f2eb;
+  color: #0f5132;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Estilos para cards en la lista de declaraciones */
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.card-header {
+  border-bottom: none;
+}
+
+/* Estilos para botones */
+.btn {
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+/* Mejoras para la navegación */
+.navbar-brand {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+/* Estilos para el footer */
+footer {
+  margin-top: auto;
+}
+
+/* Loading state */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+}
